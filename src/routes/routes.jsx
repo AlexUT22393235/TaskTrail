@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import LoginMio from '../pages/LoginMio'
+import Login from '../pages/Login'
 import Trabajos from "../pages/Trabajos";
 import Detalles from "../pages/Detalles";
 
 export const rutas = createBrowserRouter([
     {
         path: "/",
-        element: <LoginMio />
+        element: <Login />
     },
     {
         path: "/Trabajos",
