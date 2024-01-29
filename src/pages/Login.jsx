@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../assets/logo.jpeg'
+import { Link } from 'react-router-dom';
 
 function Login() {
   return (
@@ -38,13 +39,15 @@ function Login() {
                 placeholder="Ingrese su contraseña"
               />
             </div>
-
+            <Link to="/Trabajos">
             <button
               type="submit"
               className="w-full bg-cyan-800 text-white p-2 rounded"
             >
               Ingresar
             </button>
+            </Link>
+            
           </form>
         </div>
       </div>
