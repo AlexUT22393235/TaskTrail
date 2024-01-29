@@ -8,7 +8,11 @@ function Detalles() {
     return (
         <>
             <Header></Header>
+
+            <Link to="/Trabajos">
             <IoArrowBack size="3rem"/>
+            </Link>
+            
             <h1 className="font-semibold text-center text-4xl p-4">Detalles</h1>
             
             {/*Texto de la izquierda*/}
