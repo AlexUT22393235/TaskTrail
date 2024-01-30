@@ -1,57 +1,55 @@
-import React from 'react'
-import Header from '../components/Header'
+import React from 'react';
 import { IoArrowBack } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-
+import Header from '../components/Header';
 
 function Detalles() {
     return (
         <>
-            <Header></Header>
-
+        <Header />
+        <div className="container mx-auto p-8">
+            
+            
             <Link to="/Trabajos">
-            <IoArrowBack size="3rem"/>
+                <IoArrowBack size="3rem" />
             </Link>
             
-            <h1 className="font-semibold text-center text-4xl p-4">Detalles</h1>
+            <div className="text-center">
+                <h1 className="font-semibold text-4xl mb-4">Detalles</h1>
+            </div>
+
             
-            {/*Texto de la izquierda*/}
-            <div className="flex-container">
-    <div className="flex-shrink-0 text-left p-4">
-        <p className="font-semibold text-3xl">Tipo de trabajo:</p>
-    </div>
 
-    <div className="flex-shrink-0 text-left p-4">
-        <p className="font-semibold text-3xl">Materiales:</p>
-        <ul className="p-5">
-            <li className="text-2xl">Llantas: $4800</li>
-            <li className="text-2xl">Llantas: $4800</li>
-            <li className="text-2xl">Llantas: $4800</li>
-            
-        </ul>
-    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <p className="font-semibold text-2xl">Tipo de trabajo: Reparación</p>
 
-    <div className="flex-grow"></div>
-{/*Texto de la derecha */}
-    <div className="flex-shrink-0 text-right p-4">
-        <p className="font-semibold text-3xl">Horas de trabajo: 7</p>
-        <p className="font-semibold text-3xl">Total por horas de trabajo: $2000</p>
-    </div>
-</div>
-{/*Texto de hasta abajo*/}
-<div className="absolute bottom-0 p-10 left-[80%]">
-<p className="text-4xl font-bold">TOTAL: 500$</p>
-</div>
+                    <p className="font-semibold text-2xl mt-4">Materiales:</p>
+                    <ul className="list-disc ml-8">
+                        <li className="text-xl">Llantas: $4800</li>
+                        <li className="text-xl">Aceite: $2000</li>
+                        {/* Agrega más materiales si es necesario */}
+                    </ul>
+                </div>
 
-    <div className="p-5">
-    <Link to="/Secciones">
-            <button className="bg-blue-500 p-2 border rounded-lg hover:bg-blue-300 text-white w-[10%]">Ver Secciones</button>        
-        </Link>
-    </div>
-        
-        
-        </>
-    )
+                <div className="text-right">
+                    <p className="font-semibold text-2xl">Horas de trabajo: 7</p>
+                    <p className="font-semibold text-2xl mt-4">Total por horas de trabajo: $2000</p>
+                </div>
+            </div>
+
+            <div  className="absolute bottom-0 p-10 left-[80%]">
+                <p className="text-4xl font-bold">TOTAL: $500</p>
+            </div>
+
+            <div className="absolute bottom-0 p-10 right-[85%]">
+                <Link to="/Secciones">
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-300 text-white ">Ver Secciones</button>
+                </Link>
+            </div>
+        </div>
+    </>
+    );
 }
 
-export default Detalles
+export default Detalles;
