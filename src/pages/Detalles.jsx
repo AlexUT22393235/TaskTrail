@@ -42,9 +42,13 @@ function Detalles() {
 <div className="absolute bottom-0 p-10 left-[80%]">
 <p className="text-4xl font-bold">TOTAL: 500$</p>
 </div>
-        <Link to="/Secciones">
-            <button className="bg-indigo-500 p-2 border rounded-lg hover:bg-indigo-300">Secciones</button>        
+
+    <div className="p-5">
+    <Link to="/Secciones">
+            <button className="bg-blue-500 p-2 border rounded-lg hover:bg-blue-300 text-white w-[10%]">Ver Secciones</button>        
         </Link>
+    </div>
+        
         
         </>
     )

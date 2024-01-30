@@ -4,6 +4,7 @@ import Trabajos from "../pages/Trabajos";
 import Detalles from "../pages/Detalles";
 import Secciones from "../pages/Secciones";
 import ListaMateriales from "../pages/ListaMaterial"
+import Cronometro from "../pages/Cronometro";
 
 export const rutas = createBrowserRouter([
     {
@@ -24,7 +25,11 @@ export const rutas = createBrowserRouter([
     },
     {
         path: "/ListaMateriales",
-        element: <ListaMateriales ></ListaMateriales>
+        element: <ListaMateriales />
+    },
+    {
+        path: "/Cronometro",
+        element: <Cronometro />
     }
 
 ])
