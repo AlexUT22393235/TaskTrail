@@ -1,6 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const Modal = ({ isOpen, onClose, children }) => {
+
+    
+
+    const mostrarAlerta=()=>{
+        Swal.fire({
+            icon: 'info',
+            title: 'Alerta',
+            html: '<p>Seguro que quieres continuar?</p>'
+        }).then((result) => {
+            // Si el usuario hace clic en "Confirmar" en la alerta, cierra el modal
+            if (result.isConfirmed) {
+                onClose();
+            }
+        });
+    }
     return (
         <>
             {isOpen && (
@@ -31,7 +47,7 @@ const Modal = ({ isOpen, onClose, children }) => {
                             </div>
                             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex items-center justify-center">
                                 <button
-                                    onClick={onClose}
+                                    onClick={mostrarAlerta} 
                                     type="button"
                                     className="bg-blue-950 p-3 rounded-lg text-white flex justify-center items-center"
                                 >

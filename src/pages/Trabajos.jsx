@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaEye } from "react-icons/fa6";
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import Modal from '../components/AñadirTrabajo';
 
 function Trabajos() {
     const [modalOpen, setModalOpen] = useState(false);
+    
 
     const openModal = () => {
         setModalOpen(true);
@@ -14,6 +15,8 @@ function Trabajos() {
     const closeModal = () => {
         setModalOpen(false);
     };
+
+    
 
     return (
         <>
@@ -40,9 +43,9 @@ function Trabajos() {
                     <tbody>
                         <tr>
                             <td class="py-2 px-4 border">1</td>
-                            <td class="py-2 px-4 border"></td>
-                            <td class="py-2 px-4 border"></td>
-                            <td class="py-2 px-4 border"></td>
+                            <td class="py-2 px-4 border">Reparacion</td>
+                            <td class="py-2 px-4 border">Primer comnetario</td>
+                            <td class="py-2 px-4 border">100$</td>
                             <Link to="/Detalles">
                                 <td class="py-2 px-4 border flex justify-center items-center"><FaEye size="2rem" /></td>
                             </Link>
@@ -73,10 +76,11 @@ function Trabajos() {
                         </select>
                         <p className="text-center p-3 font-semibold">Descripcion</p>
                         <textarea className="w-[100%] p-2 rounded-lg border bg-gray-200"></textarea>
+
+                        <p className="text-center p-3 font-semibold">Precio</p>
+                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" type='number'></input>
                     </Modal>
                 </div>
-
-
             </div>
 
         </>

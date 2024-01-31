@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const NuevoMaterialModal = ({ isOpen, closeModal, handleAgregarNuevoMaterial }) => {
   const [nuevoMaterial, setNuevoMaterial] = useState('');
   const [costoMaterial, setCostoMaterial] = useState('');
@@ -48,7 +49,7 @@ const NuevoMaterialModal = ({ isOpen, closeModal, handleAgregarNuevoMaterial }) 
           </div>
           <div className="flex justify-end">
             <button
-              className="p-2 bg-confirmarColor text-white rounded"
+              className="p-2 bg-blue-500 text-white rounded"
               onClick={handleConfirmarClick}
             >
               Confirmar

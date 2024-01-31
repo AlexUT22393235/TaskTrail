@@ -9,14 +9,14 @@ const ListaMaterial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [materialList, setMaterialList] = useState([
     { id: '1', name: 'Material 1', price: '$10.00' },
-    { id: '2', name: 'Material 2', price: '$15.00' },
-    { id: '3', name: 'Material 3', price: '$15.00' },
-    { id: '4', name: 'Material 4', price: '$15.00' },
-    { id: '5', name: 'Material 5', price: '$15.00' },
-    { id: '6', name: 'Material 6', price: '$15.00' },
-    { id: '7', name: 'Material 7', price: '$15.00' },
-    { id: '8', name: 'Material 8', price: '$15.00' },
-    { id: '9', name: 'Material 9', price: '$15.00' },
+    { id: '2', name: 'Material 2', price: '$50.00' },
+    { id: '3', name: 'Material 3', price: '$134.00' },
+    { id: '4', name: 'Material 4', price: '$12.00' },
+    { id: '5', name: 'Material 5', price: '$90.00' },
+    { id: '6', name: 'Material 6', price: '$134.00' },
+    { id: '7', name: 'Material 7', price: '$23.00' },
+    { id: '8', name: 'Material 8', price: '$50.00' },
+    { id: '9', name: 'Material 9', price: '$184.00' },
     // Agrega más materiales según sea necesario
   ]);
 
@@ -37,13 +37,7 @@ const ListaMaterial = () => {
   };
 
 
-  const openModal2 = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal2 = () => {
-    setIsModalOpen(false);
-  };
+  
   return (
     <>
     <Header ></Header>
@@ -53,8 +47,7 @@ const ListaMaterial = () => {
       <h2 className="text-4xl font-bold text-center">Materiales</h2>
 
       <div className="flex justify-between items-center mb-4 p-5">
-        <button className="p-2 bg-blue-500 text-white rounded w-[2%] hover:bg-blue-400" onClick={openModal}>+</button>
-        <button className="p-2 bg-blue-500 text-white rounded w-[8%] hover:bg-blue-400" >Nuevo</button>
+        <button className="p-2 bg-blue-500 text-white rounded w-[5%] hover:bg-blue-400" onClick={openModal}>Nuevo</button>
       </div>
       <div className="bg-sky-400 p-4 rounded-md">
         <div class="container mx-auto p-3">
@@ -93,8 +86,6 @@ const ListaMaterial = () => {
         handleAddMaterial={handleAddMaterial}
         materialList={materialList}
       />
-
-
 
     </>
 
