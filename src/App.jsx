@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Login from './pages/Login'
-import ListaMaterial from './pages/ListaMaterial'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 function App() {
 
   return (
     <>
-      <ListaMaterial/>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/Detalles" element={<Detalles />} />
+        <Route path="/Trabajos" element={<Trabajos />} />
+      </Routes>
+    </BrowserRouter>
     </>
   )
 }

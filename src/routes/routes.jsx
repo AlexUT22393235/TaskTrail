@@ -3,13 +3,13 @@ import Login from '../pages/Login'
 import Trabajos from "../pages/Trabajos";
 import Detalles from "../pages/Detalles";
 import Secciones from "../pages/Secciones";
-import ListaMateriales from "../pages/ListaMaterial"
+import ListaMateriales from "../pages/ListaMaterial";
 import Cronometro from "../pages/Cronometro";
 
 export const rutas = createBrowserRouter([
     {
         path: "/",
-        element: <Login />
+        element: <Login/>
     },
     {
         path: "/Trabajos",
@@ -17,7 +17,7 @@ export const rutas = createBrowserRouter([
     },
     {
         path: "/Detalles",
-        element: <Detalles />
+        element: <Detalles/>
     },
     {
         path: "/Secciones",
