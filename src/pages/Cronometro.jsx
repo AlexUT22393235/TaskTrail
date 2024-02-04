@@ -7,9 +7,7 @@ function Cronometro() {
     return (
         <>
         <Header></Header>
-        <Link to="/Secciones">
-            <IoArrowBack size="3rem"/>
-            </Link>
+        
         <h1 className="font-semibold text-4xl text-center">CRONOMETRO DE TRABAJO</h1>
         
             <p className="text-center p-10 text-2xl">Timepo Transcurrido</p>
