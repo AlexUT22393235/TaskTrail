@@ -1,19 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// AppRoutes.jsx (o el archivo donde configuras las rutas)
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from '../pages/Login';
+import Detalles from '../pages/Detalles';
+import Trabajos from '../pages/Trabajos';
 
-
-function App() {
-
+const AppRoutes = () => {
   return (
     <>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Detalles" element={<Detalles />} />
-        <Route path="/Trabajos" element={<Trabajos />} />
-      </Routes>
-    </BrowserRouter>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default AppRoutes;

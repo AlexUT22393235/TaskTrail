@@ -17,20 +17,17 @@ function Login() {
         contrasenia,
       });
 
-      const userRoleId = response.data.rol_id;
-
-      console.log('Inicio de sesión exitoso', response.data);
-
-      if (userRoleId === 1) {
-        navigate('/Detalles');
-      } else if (userRoleId === 2) {
-        navigate('/Trabajos');
+      if (response.data.error) {
+        console.error('Error en la consulta:', response.data.error);
+        // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
-        console.warn('ID de rol no soportado:', userRoleId);
+        console.log('Inicio de sesión exitoso', response.data);
+        console.log('Redirigiendo a /Trabajos');
+        navigate('/Trabajos');
       }
-
     } catch (error) {
-      console.error('Inicio de sesión fallido', error.response.data);
+      console.error('Error en la solicitud:', error.message);
+      // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
 
