@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TablaTaller = () => {
+const Trabajos1 = () => {
   const [filas, setFilas] = useState([
     { columna1: 'Dato 1', columna2: 'Dato 2', columna3: 'Dato 3' },
     // Agrega más filas según tus datos

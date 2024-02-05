@@ -28,17 +28,17 @@ const obtenerUsuarioPorId = (req, res) => {
 
 
 const crearUsuario = (req, res) => {
-  const { nombre, contrasenia, rol} = req.body;
+  const { nombre_usuario, contrasenia, rol_id} = req.body;
 
   // Verificar que se proporcionen nombre, correo y contraseña
-  if (!nombre || !contrasenia || !rol) {
+  if (!nombre_usuario || !contrasenia || !rol_id) {
     return res.status(400).json({ error: 'Nombre, correo o contraseña faltante' });
   }
 
   // Almacenar el nombre de usuario, correo y contraseña en la base de datos sin encriptación
   connection.query(
     'INSERT INTO usuario (nombre_usuario, contrasenia, rol_id) VALUES (?,?,?)',
-    [nombre,contrasenia, rol],
+    [nombre_usuario,contrasenia, rol_id],
     (error, results) => {
       if (error) {
         console.error('Error al agregar usuario', error);
