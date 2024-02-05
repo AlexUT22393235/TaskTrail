@@ -10,9 +10,7 @@ function Detalles() {
         <div className="container mx-auto p-8">
             
             
-            <Link to="/Trabajos">
-                <IoArrowBack size="3rem" />
-            </Link>
+            
             
             <div className="text-center">
                 <h1 className="font-semibold text-4xl mb-4">Detalles</h1>

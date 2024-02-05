@@ -1,13 +1,13 @@
-// AppRoutes.jsx (o el archivo donde configuras las rutas)
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from '../pages/Login';
-import Detalles from '../pages/Detalles';
-import Trabajos from '../pages/Trabajos';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import Login from './pages/Login'
 
-const AppRoutes = () => {
+function App() {
+
   return (
     <>
+      <Login></Login>
     </>
   );
 };

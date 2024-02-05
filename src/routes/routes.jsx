@@ -5,6 +5,11 @@ import Detalles from "../pages/Detalles";
 import Secciones from "../pages/Secciones";
 import ListaMateriales from "../pages/ListaMaterial";
 import Cronometro from "../pages/Cronometro";
+import GeneradoCodigo from "../Functions/GeneradoCodigo";
+import Admin from "../pages/Admin";
+import AdminHerramientas from "../pages/AdminHerramientas";
+import Trabajos1 from "../pages/Trabajos1";
+import Token from "../pages/Token";
 
 export const rutas = createBrowserRouter([
     {
@@ -30,6 +35,24 @@ export const rutas = createBrowserRouter([
     {
         path: "/Cronometro",
         element: <Cronometro />
+    },
+    {
+        path: "/Codigo",
+        element:<GeneradoCodigo/>
+    },{
+        path: "/Admin",
+        element: <Admin />
+    },{
+        path: "/AdminHerramientas",
+        element: <AdminHerramientas />
+    },
+    {
+        path: "/Trabajos1",
+        element: <Trabajos1></Trabajos1>
+    },
+    {
+        path: "/Token",
+        element: <Token />
     }
 
 ])
