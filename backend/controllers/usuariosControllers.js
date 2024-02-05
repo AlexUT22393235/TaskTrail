@@ -56,7 +56,7 @@ const actualizarUsuarioPorId = (req, res) => {
   const { nombre, contrasenia, rol } = req.body;
   connection.query(
     "UPDATE usuario SET nombre_usuario=?, contrasenia=?, rol_id=? WHERE id_usuario=?",
-    [nombre,contrasenia, rol, id],
+    [nombre, contrasenia, rol, id], // Asegúrate de que estos valores coincidan con lo que tu base de datos espera.
     (error, results) => {
       if (error) {
         console.error("Error al actualizar usuario", error);
@@ -67,6 +67,7 @@ const actualizarUsuarioPorId = (req, res) => {
     }
   );
 };
+
 
 const eliminarUsuarioPorId = (req, res) => {
   const id = req.params.id_usuario;

@@ -10,7 +10,6 @@ import Admin from "../pages/Admin";
 import AdminHerramientas from "../pages/AdminHerramientas";
 import Trabajos1 from "../pages/Trabajos1";
 import Token from "../pages/Token";
-
 export const rutas = createBrowserRouter([
     {
         path: "/",
@@ -53,6 +52,6 @@ export const rutas = createBrowserRouter([
     {
         path: "/Token",
         element: <Token />
-    }
+    },
 
 ])
