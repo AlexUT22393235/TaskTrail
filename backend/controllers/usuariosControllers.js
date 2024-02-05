@@ -109,7 +109,84 @@ const login = (req, res) => {
 };
 
 
+const nodemailer = require('nodemailer');
+const nanoid = require('nanoid');
 
+// ... (otras importaciones y código)
+
+const generarCodigoVerificacion = () => {
+  const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const codigoVerificacion = nanoid.customAlphabet(alphabet, 3)();
+  return codigoVerificacion;
+};
+
+
+const enviarCorreoVerificacion = async (email, codigoVerificacion) => {
+  // Configuración de nodemailer (ajústala según tu proveedor de correo)
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'tony13.aekc@gmail.com',
+      pass: 'tu_contraseña',
+    },
+  });
+
+  // Contenido del correo electrónico
+  const mailOptions = {
+    from: 'tu_correo@gmail.com',
+    to: email,
+    subject: 'Código de Verificación',
+    text: `Tu código de verificación es: ${codigoVerificacion}`,
+  };
+
+  // Envío del correo electrónico
+  await transporter.sendMail(mailOptions);
+};
+
+const generarYEnviarCodigo = async (req, res) => {
+  const { nombre, contrasenia, email } = req.body;
+
+  // Generar código de verificación
+  const codigoVerificacion = generarCodigoVerificacion();
+
+  // Enviar código por correo electrónico
+  await enviarCorreoVerificacion(email, codigoVerificacion);
+
+  // Actualizar la base de datos con el código de verificación
+  connection.query(
+    'UPDATE usuario SET codigo_verificacion = ? WHERE nombre_usuario = ?',
+    [codigoVerificacion, nombre],
+    (error, results) => {
+      if (error) {
+        console.error('Error al actualizar código de verificación en la base de datos', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+      } else {
+        res.json({ message: 'Código de verificación enviado exitosamente' });
+      }
+    }
+  );
+};
+
+const verificarCodigo = (req, res) => {
+  const { nombre, codigoVerificacion } = req.body;
+
+  // Verificar el código ingresado con el almacenado en la base de datos
+  connection.query(
+    'SELECT * FROM usuario WHERE nombre_usuario = ? AND codigo_verificacion = ?',
+    [nombre, codigoVerificacion],
+    (error, results) => {
+      if (error) {
+        console.error('Error al verificar código de verificación en la base de datos', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+      } else if (results.length === 1) {
+        res.json({ message: 'Código de verificación correcto. Redirigiendo a la página de trabajos' });
+        // Aquí puedes redirigir al usuario a la página de trabajos
+      } else {
+        res.status(401).json({ error: 'Código de verificación incorrecto' });
+      }
+    }
+  );
+};
 
 
 
@@ -120,4 +197,6 @@ module.exports = {
   actualizarUsuarioPorId,
   eliminarUsuarioPorId,
   login,
+  generarYEnviarCodigo,
+  verificarCodigo,
 };

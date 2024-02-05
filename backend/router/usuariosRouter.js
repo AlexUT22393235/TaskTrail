@@ -25,10 +25,14 @@ router.delete("/:id_usuario", usuariosControllers.eliminarUsuarioPorId);
 
 // Puedes agregar otras rutas o acciones según tus necesidades
 
+
+// Generar y enviar código de verificación
+router.post('/generar-codigo', usuariosControllers.generarYEnviarCodigo);
+
+// Verificar código de verificación
+router.post('/verificar-codigo', usuariosControllers.verificarCodigo);
+
 // Ruta para iniciar sesión
-
-// router.post("/login", usuariosControllers.iniciarSesion);
-
 router.post("/login", usuariosControllers.login);
 
 module.exports = router;

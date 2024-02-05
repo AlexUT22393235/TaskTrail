@@ -1,22 +1,8 @@
-// !dependencias
 const express = require("express");
-const cors = require("cors");
-const usuariosRouter = require("./router/usuariosRouter");
-const bodyParser = require('body-parser');
-// const { Resend } = require("resend");
-
-/* app va a tener todos los atributos y metodos de 
-express */
+const { Resend } = require("resend");
 
 const app = express();
-
 // const resend = new Resend("re_Yath6t2n_HcuP4DzE1WJf1UgUbiDPqF9F");
-
-app.use(bodyParser.json());
-
-app.use(cors());
-
-app.use(express.json());
 
 // app.get("/codigo", async (req, res) => {
 //   const { data, error } = await resend.emails.send({
@@ -33,15 +19,6 @@ app.use(express.json());
 //   res.status(200).json({ data });
 // });
 
-
-app.use("/usuarios", usuariosRouter);
-
-
-
-app.get("/", (req, res) => {
-  res.send(`<h1>Hola perro</h1>`);
-});
-
-app.listen(3001, () => {
-  console.log("API escuchando por el puerto 3001");
+app.listen(3000, () => {
+  console.log("Listening on http://localhost:3000");
 });

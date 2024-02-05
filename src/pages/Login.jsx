@@ -6,6 +6,7 @@ import logo from '../assets/logo.jpeg';
 function Login() {
   const [nombre, setNombre] = useState('');
   const [contrasenia, setContrasenia] = useState('');
+  const [mostrarFormularioCodigo, setMostrarFormularioCodigo] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -21,9 +22,9 @@ function Login() {
         console.error('Error en la consulta:', response.data.error);
         // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
-        console.log('Inicio de sesión exitoso', response.data);
-        console.log('Redirigiendo a /Trabajos');
-        navigate('/Trabajos');
+        console.log('Inicio de sesión exitoso');
+        // Redirigir al usuario a la página deseada después del inicio de sesión
+        navigate('/Token');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error.message);
@@ -39,10 +40,7 @@ function Login() {
           <h2 className="text-2xl text-center">INICIO SESIÓN</h2>
           <form onSubmit={handleLogin}>
             <div className="mb-4">
-              <label
-                className="block text-white text-sm font-semibold mb-2"
-                htmlFor="username"
-              >
+              <label className="block text-white text-sm font-semibold mb-2" htmlFor="username">
                 USUARIO
               </label>
               <input
@@ -57,10 +55,7 @@ function Login() {
             </div>
 
             <div className="mb-4">
-              <label
-                className="block text-white text-sm font-semibold mb-2"
-                htmlFor="password"
-              >
+              <label className="block text-white text-sm font-semibold mb-2" htmlFor="password">
                 Contraseña
               </label>
               <input
@@ -74,10 +69,7 @@ function Login() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-cyan-800 text-white p-2 rounded"
-            >
+            <button type="submit" className="w-full bg-cyan-800 text-white p-2 rounded">
               Ingresar
             </button>
           </form>
@@ -85,7 +77,11 @@ function Login() {
       </div>
 
       <div className="flex-auto w-3/5 bg-gray-300">
-        <img src="https://images.unsplash.com/photo-1650429960273-8cb6ceefe98f?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Imagen" className="object-cover w-full h-full" />
+        <img
+          src="https://images.unsplash.com/photo-1650429960273-8cb6ceefe98f?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Imagen"
+          className="object-cover w-full h-full"
+        />
       </div>
     </div>
   );
