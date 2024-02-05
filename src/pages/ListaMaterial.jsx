@@ -41,9 +41,7 @@ const ListaMaterial = () => {
   return (
     <>
     <Header ></Header>
-    <Link to="/Secciones">
-            <IoArrowBack size="3rem"/>
-            </Link>
+   
       <h2 className="text-4xl font-bold text-center">Materiales</h2>
 
       <div className="flex justify-between items-center mb-4 p-5">

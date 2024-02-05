@@ -10,9 +10,7 @@ function Secciones() {
     return (
         <>
             <Header />
-            <Link to="/Detalles">
-            <IoArrowBack size="3rem"/>
-            </Link>
+            
             <h1 className="text-center text-4xl font-bold">Secciones</h1>
             <div className="flex items-center justify-center p-5">
                 <Link to="/Cronometro">
