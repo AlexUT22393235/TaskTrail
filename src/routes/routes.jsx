@@ -5,7 +5,7 @@ import Detalles from "../pages/Detalles";
 import Secciones from "../pages/Secciones";
 import ListaMateriales from "../pages/ListaMaterial"
 import Cronometro from "../pages/Cronometro";
-
+import GeneradoCodigo from "../Functions/GeneradoCodigo";
 export const rutas = createBrowserRouter([
     {
         path: "/",
@@ -30,6 +30,10 @@ export const rutas = createBrowserRouter([
     {
         path: "/Cronometro",
         element: <Cronometro />
+    },
+    {
+        path: "/Codigo",
+        element:<GeneradoCodigo/>
     }
 
 ])
