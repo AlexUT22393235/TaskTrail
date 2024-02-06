@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 
 function Login() {
@@ -23,14 +24,17 @@ function Login() {
       } else {
         console.log('Inicio de sesión exitoso', response.data);
         
+        // Almacenar el correo electrónico en una cookie con una expiración de 1 día
+        Cookies.set('userEmail', response.data.email, { expires: 1 });
+
         // Evaluar el rol y redirigir según el mismo
         const rol = response.data.rol;
         if (rol === 1) {
           console.log('Redirigiendo a /AdminGeneral');
           navigate('/AdminGeneral');
         } else if (rol === 2) {
-          console.log('Redirigiendo a /Trabajos');
-          navigate('/CodigoVerificacion');
+          console.log('Redirigiendo a /CodigoVerificacion');
+          navigate('/ComponentePruebaEmail');
         }
       }
     } catch (error) {
@@ -38,7 +42,6 @@ function Login() {
       // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
-  
 
   return (
     <div className="flex h-screen w-screen">
@@ -86,7 +89,6 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-cyan-800 text-white p-2 rounded"
-              onClick={handleLogin}
             >
               Ingresar
             </button>
