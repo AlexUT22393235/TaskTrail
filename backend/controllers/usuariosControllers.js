@@ -53,20 +53,23 @@ const crearUsuario = (req, res) => {
 
 const actualizarUsuarioPorId = (req, res) => {
   const id = req.params.id_usuario;
-  const { nombre, contrasenia, rol } = req.body;
+  // Asegúrate de que los nombres de los campos en req.body coincidan con tu esquema de base de datos.
+  const { nombre_usuario, contrasenia, rol_id } = req.body; 
   connection.query(
-    "UPDATE usuario SET nombre_usuario=?, contrasenia=?, rol_id=? WHERE id_usuario=?",
-    [nombre, contrasenia, rol, id], // Asegúrate de que estos valores coincidan con lo que tu base de datos espera.
+    "UPDATE usuario SET nombre_usuario = ?, contrasenia = ?, rol_id = ? WHERE id_usuario = ?",
+    [nombre_usuario, contrasenia, rol_id, id],
     (error, results) => {
       if (error) {
         console.error("Error al actualizar usuario", error);
-        res.status(500).json({error: "Error al actualizar usuario"});
+        res.status(500).json({ error: "Error al actualizar usuario" });
       } else {
-        res.json({message: "Usuario actualizado correctamente"});
+        res.json({ message: "Usuario actualizado correctamente" });
       }
     }
   );
 };
+
+
 
 
 const eliminarUsuarioPorId = (req, res) => {

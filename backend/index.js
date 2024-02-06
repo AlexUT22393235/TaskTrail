@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const usuariosRouter = require("./router/usuariosRouter");
 const materialesRouter = require("./router/materialesRouter");
+const codigo_verificacionRouter = require("./router/codigo_verificacionRouter");
 
 /* app va a tener todos los atributos y metodos de 
 express */
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use("/usuarios", usuariosRouter);
 
 app.use("/materiales", materialesRouter);
+
+app.use("/codigo_verificacion", codigo_verificacionRouter);
 
 
 

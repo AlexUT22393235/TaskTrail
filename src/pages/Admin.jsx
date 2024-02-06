@@ -31,7 +31,7 @@ function Admin() {
 
     const closeModal = () => {
         setModalOpen(false);
-        cargarUsuarios(); // Recargar la lista de usuarios después de cerrar el modal de añadir
+        cargarUsuarios(); // Recargar usuarios después de cerrar el modal de añadir
     };
 
     const openModal2 = (id) => {
@@ -41,7 +41,11 @@ function Admin() {
 
     const closeModal2 = () => {
         setModalOpen2(false);
-        cargarUsuarios(); // Recargar la lista de usuarios después de cerrar el modal de actualizar
+        cargarUsuarios(); // Recargar usuarios después de cerrar el modal de actualizar
+    };
+
+    const onUsuarioActualizado = () => {
+        cargarUsuarios(); // Recarga la lista de usuarios después de una actualización
     };
 
     const mostrarAlerta = (id) => {
@@ -54,9 +58,15 @@ function Admin() {
             cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.isConfirmed) {
-                // Aquí puedes añadir la lógica para eliminar un usuario
-                // Por ejemplo: axios.delete(`http://localhost:3001/usuarios/${id}`).then(...)
-                cargarUsuarios(); // Recargar la lista de usuarios después de eliminar
+                axios.delete(`http://localhost:3001/usuarios/${id}`)
+                    .then(response => {
+                        Swal.fire('Eliminado!', 'El usuario ha sido eliminado.', 'success');
+                        cargarUsuarios(); // Recargar la lista de usuarios después de eliminar
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar el usuario', error);
+                        Swal.fire('Error', 'No se pudo eliminar el usuario', 'error');
+                    });
             }
         });
     };
@@ -68,7 +78,6 @@ function Admin() {
             <div className="p-2">
                 <button className="bg-blue-500 p-2 text-white hover:bg-blue-700" onClick={openModal}>Añadir Usuario</button>
             </div>
-            {/* Tabla de usuarios */}
             <div className="container mx-auto p-3">
                 <table className="w-full bg-white border border-gray-300">
                     <thead>
@@ -81,13 +90,13 @@ function Admin() {
                     </thead>
                     <tbody>
                         {usuarios.map((usuario, index) => (
-                            <tr key={usuario.id}>
+                            <tr key={usuario.id_usuario}>
                                 <td className="py-2 px-4 border">{index + 1}</td>
                                 <td className="py-2 px-4 border">{usuario.nombre_usuario}</td>
                                 <td className="py-2 px-4 border">{usuario.rol_id}</td>
                                 <td className="py-2 px-4 border">
-                                    <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={() => mostrarAlerta(usuario.id)}>Eliminar</button>
-                                    <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={() => openModal2(usuario.id)}>Actualizar</button>
+                                    <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={() => mostrarAlerta(usuario.id_usuario)}>Eliminar</button>
+                                    <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={() => openModal2(usuario.id_usuario)}>Actualizar</button>
                                 </td>
                             </tr>
                         ))}
@@ -95,7 +104,7 @@ function Admin() {
                 </table>
             </div>
             <AñadirUsuario isOpen={modalOpen} onClose={closeModal} />
-            <ActualizarUsuario isOpen2={modalOpen2} onClose={closeModal2} usuarioId={usuarioSeleccionadoId} />
+            <ActualizarUsuario isOpen2={modalOpen2} onClose={closeModal2} usuarioId={usuarioSeleccionadoId} onUsuarioActualizado={onUsuarioActualizado} />
         </>
     );
 }
