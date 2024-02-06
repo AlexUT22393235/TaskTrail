@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 
-function Token() {
+function CodigoVerificacion() {
   return (
     <>
  (
@@ -39,4 +39,4 @@ function Token() {
   )
 }
 
-export default Token
+export default CodigoVerificacion;

@@ -9,8 +9,9 @@ import GeneradoCodigo from "../Functions/GeneradoCodigo";
 import Admin from "../pages/Admin";
 import AdminHerramientas from "../pages/AdminHerramientas";
 import Trabajos1 from "../pages/Trabajos1";
-import Token from "../pages/Token";
+import CodigoVerificacion from "../pages/CodigoVerificacion";
 import ComponentePrueba from "../pages/ComponentePrueba";
+import ComponentePruebaEmail from "../pages/ComponentePruebaEmail";
 
 export const rutas = createBrowserRouter([
     {
@@ -52,12 +53,16 @@ export const rutas = createBrowserRouter([
         element: <Trabajos1></Trabajos1>
     },
     {
-        path: "/Token",
-        element: <Token />
+        path: "/CodigoVerificacion",
+        element: <CodigoVerificacion />
     },
     {
         path: "/ComponentePrueba",
         element: <ComponentePrueba />
+    },
+    {
+        path: "/ComponentePruebaEmail",
+        element: <ComponentePruebaEmail />
     }
 
 ])
