@@ -12,6 +12,7 @@ import Trabajos1 from "../pages/Trabajos1";
 import CodigoVerificacion from "../pages/CodigoVerificacion";
 import ComponentePrueba from "../pages/ComponentePrueba";
 import ComponentePruebaEmail from "../pages/ComponentePruebaEmail";
+import AdminGeneral from '../pages/AdminGeneral'
 
 export const rutas = createBrowserRouter([
     {
@@ -66,6 +67,10 @@ export const rutas = createBrowserRouter([
     {
         path: "/ComponentePruebaEmail",
         element: <ComponentePruebaEmail />
+    },
+    {
+        path: "/AdminGeneral",
+        element: <AdminGeneral />
     }
 
 ])
