@@ -10,9 +10,12 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
+    console.log('Credenciales:', { nombre, contrasenia });
+
 
     try {
-      const response = await axios.post('http://localhost:3001/usuarios/login', {
+      const response = await axios.post('http://localhost:3001/login', {
         nombre,
         contrasenia,
       });
@@ -22,8 +25,18 @@ function Login() {
         // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
         console.log('Inicio de sesión exitoso', response.data);
-        console.log('Redirigiendo a /Trabajos');
-        navigate('/Trabajos');
+
+        // Redirigir según el rol
+        const rol = response.data.rol;
+        if (rol === 1) {
+          console.log('Redirigiendo a /AdminGeneral');
+          navigate("/AdminGeneral");
+        } else if (rol === 2) {
+          console.log('Redirigiendo a /Trabajos');
+          navigate("/Trabajos");
+        } else {
+          console.log('Rol no reconocido');
+        }
       }
     } catch (error) {
       console.error('Error en la solicitud:', error.message);
@@ -77,6 +90,7 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-cyan-800 text-white p-2 rounded"
+              onClick={handleLogin}
             >
               Ingresar
             </button>

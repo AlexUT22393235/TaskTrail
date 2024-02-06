@@ -10,4 +10,3 @@ router.use(express.json());
 router.post('/', loginController.login);
 
 module.exports = router;
-
