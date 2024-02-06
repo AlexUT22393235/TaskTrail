@@ -29,6 +29,7 @@ const login = (req, res) => {
           nombre_usuario: usuario.nombre_usuario,
           rol_id: usuario.rol_id,
         },
+        rol: usuario.rol_id
       });
     });
   };

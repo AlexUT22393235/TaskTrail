@@ -10,6 +10,7 @@ import Admin from "../pages/Admin";
 import AdminHerramientas from "../pages/AdminHerramientas";
 import Trabajos1 from "../pages/Trabajos1";
 import Token from "../pages/Token";
+import ComponentePrueba from "../pages/ComponentePrueba";
 
 export const rutas = createBrowserRouter([
     {
@@ -53,6 +54,10 @@ export const rutas = createBrowserRouter([
     {
         path: "/Token",
         element: <Token />
+    },
+    {
+        path: "/ComponentePrueba",
+        element: <ComponentePrueba />
     }
 
 ])
