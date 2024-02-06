@@ -10,26 +10,35 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('http://localhost:3001/usuarios/login', {
-        nombre,
-        contrasenia,
+      const response = await axios.post('http://localhost:3001/login', {
+        nombre_usuario: nombre,
+        contrasenia: contrasenia,
       });
-
+  
       if (response.data.error) {
         console.error('Error en la consulta:', response.data.error);
         // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
         console.log('Inicio de sesión exitoso', response.data);
-        console.log('Redirigiendo a /Trabajos');
-        navigate('/Trabajos');
+        
+        // Evaluar el rol y redirigir según el mismo
+        const rol = response.data.rol;
+        if (rol === 1) {
+          console.log('Redirigiendo a /AdminGeneral');
+          navigate('/AdminGeneral');
+        } else if (rol === 2) {
+          console.log('Redirigiendo a /Trabajos');
+          navigate('/CodigoVerificacion');
+        }
       }
     } catch (error) {
       console.error('Error en la solicitud:', error.message);
       // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
+  
 
   return (
     <div className="flex h-screen w-screen">
@@ -77,6 +86,7 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-cyan-800 text-white p-2 rounded"
+              onClick={handleLogin}
             >
               Ingresar
             </button>
