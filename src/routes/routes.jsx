@@ -19,6 +19,10 @@ export const rutas = createBrowserRouter([
         element: <Login/>
     },
     {
+        path: "/Admin",
+        element: <Admin />
+    },
+    {
         path: "/Trabajos",
         element: <Trabajos />
     },
@@ -41,10 +45,9 @@ export const rutas = createBrowserRouter([
     {
         path: "/Codigo",
         element:<GeneradoCodigo/>
-    },{
-        path: "/Admin",
-        element: <Admin />
-    },{
+    },
+    
+    {
         path: "/AdminHerramientas",
         element: <AdminHerramientas />
     },
