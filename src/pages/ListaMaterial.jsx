@@ -1,12 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react';
+import ModalForm from '../components/ModalForm';
+import NuevoMaterialModal from '../components/NuevoMaterialModal';
+import { Link } from 'react-router-dom';
+import { IoArrowBack } from "react-icons/io5";
+import Header from '../components/Header';
 
-function ListaMaterial() {
+const ListaMaterial = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [materialList, setMaterialList] = useState([
+    { id: '1', name: 'Material 1', price: '$10.00' },
+    { id: '2', name: 'Material 2', price: '$50.00' },
+    { id: '3', name: 'Material 3', price: '$134.00' },
+    { id: '4', name: 'Material 4', price: '$12.00' },
+    { id: '5', name: 'Material 5', price: '$90.00' },
+    { id: '6', name: 'Material 6', price: '$134.00' },
+    { id: '7', name: 'Material 7', price: '$23.00' },
+    { id: '8', name: 'Material 8', price: '$50.00' },
+    { id: '9', name: 'Material 9', price: '$184.00' },
+    // Agrega más materiales según sea necesario
+  ]);
+
+  const handleAddMaterial = (selectedMaterial) => {
+    // Lógica para agregar el material a la lista
+    const materialToAdd = materialList.find((material) => material.id === selectedMaterial);
+    if (materialToAdd) {
+      setMaterialList([...materialList, materialToAdd]);
+    }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  
   return (
     <>
     <Header ></Header>
-    <Link to="/Secciones">
-            <IoArrowBack size="3rem"/>
-            </Link>
+   
       <h2 className="text-4xl font-bold text-center">Materiales</h2>
 
       <div className="flex justify-between items-center mb-4 p-5">
@@ -55,4 +90,4 @@ function ListaMaterial() {
   );
 };
 
-export default ListaMaterial
+export default ListaMaterial;
