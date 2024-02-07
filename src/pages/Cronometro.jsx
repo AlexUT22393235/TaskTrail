@@ -39,21 +39,25 @@ function Cronometro() {
 
   // Asegura que esta es la única función utilizada para guardar el tiempo en la base de datos
   const guardarTiempoEnBaseDeDatos = async (tiempoSegundos) => {
-    const horasTrabajo = tiempoSegundos / 3600; // Conversión de segundos a horas
+    // Conversión de segundos a horas para asegurarse de enviar un valor numérico
+    const horasTrabajo = tiempoSegundos / 3600;
+  
     try {
-      await axios.post('http://localhost:3001/cronometro', {
-        descripcion: 'Descripción del trabajo realizado', // Ajusta estos datos según necesites
-        horas_trabajo: horasTrabajo,
-        tipo_trabajo_id: 1, // Ajusta estos IDs según necesites
+      const response = await axios.post('http://localhost:3001/cronometro', {
+        descripcion: 'Descripción del trabajo realizado',
+        segundosTranscurridos:  tiempoSegundos * 3600,// Asegúrate de que este campo coincida con lo que espera tu backend
+        tipo_trabajo_id: 1,
         tarifa_trabajo_id: 1,
         usuario_id: 1
       });
+  
       Swal.fire('Guardado', 'El tiempo de trabajo ha sido guardado exitosamente', 'success');
     } catch (error) {
       console.error('Error al guardar el tiempo de trabajo', error);
       Swal.fire('Error', 'No se pudo guardar el tiempo de trabajo', 'error');
     }
   };
+    
 
   return (
     <>

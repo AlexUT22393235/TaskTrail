@@ -5,8 +5,12 @@ const connection = require("../database");
 // const connection = require("../database");
 
 const guardarTiempoTrabajo = (req, res) => {
-    // Suponiendo que el tiempo viene en segundos
     const { descripcion, segundosTranscurridos, tipo_trabajo_id, tarifa_trabajo_id, usuario_id } = req.body;
+
+    // Verificar si segundosTranscurridos es un número
+    if (typeof segundosTranscurridos !== 'number' || isNaN(segundosTranscurridos)) {
+        return res.status(400).json({ error: 'El tiempo transcurrido debe ser un número válido.' });
+    }
 
     // Convertir segundos a horas, minutos y segundos
     const horas = Math.floor(segundosTranscurridos / 3600);
