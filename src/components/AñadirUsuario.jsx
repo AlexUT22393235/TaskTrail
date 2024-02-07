@@ -22,7 +22,9 @@ const AñadirUsuario = ({ isOpen, onClose }) => {
             });
             Swal.fire('Éxito', 'Usuario añadido correctamente', 'success');
             onClose();
-            // Opcional: Agrega aquí una llamada a una función para recargar la lista de usuarios en el componente Admin
+            setNombreUsuario('');
+            setContrasenia('');
+            setRolId('');
         } catch (error) {
             console.error('Error al añadir usuario', error);
             Swal.fire('Error', 'No se pudo añadir el usuario', 'error');

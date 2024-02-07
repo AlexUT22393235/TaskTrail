@@ -1,22 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
-const AñadirHerramienta = ({ isOpen, onClose, children }) => {
-
+const AñadirHerramienta = ({ isOpen, onClose}) => {
+    const [nombreMaterial, setNombreMaterial] = useState('');
+    const [precio, setPrecio] = useState('');
+    const [cantidad, setCantidad] = useState('');
     
 
-    const mostrarAlerta=()=>{
-        Swal.fire({
-            icon: 'info',
-            title: 'Alerta',
-            html: '<p>Seguro que quieres continuar?</p>'
-        }).then((result) => {
-            // Si el usuario hace clic en "Confirmar" en la alerta, cierra el modal
-            if (result.isConfirmed) {
-                onClose();
-            }
-        });
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!nombreMaterial || !precio || !cantidad) {
+            Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
+            return;
+        }
+
+        try {
+            await axios.post('http://localhost:3001/materiales', {
+                nombre_material: nombreMaterial,
+                cantidad: precio,
+                precio_material: cantidad
+            });
+            Swal.fire('Éxito', 'Material añadido correctamente', 'Correcto');
+            onClose();
+            // Opcional: Agrega aquí una llamada a una función para recargar la lista de usuarios en el componente Admin
+        } catch (error) {
+            console.error('Error al añadir usuario', error);
+            Swal.fire('Error', 'No se pudo añadir el usuario', 'error');
+        }
+    };
+
+    if (!isOpen) return null;
+
     return (
         <>
             {isOpen && (

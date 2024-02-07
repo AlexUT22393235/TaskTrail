@@ -7,11 +7,27 @@ import Swal from 'sweetalert2';
 import HeaderAdmin from '../components/HeaderAdmin';
 import AñadirHerramienta from '../components/AñadirHerramienta';
 import ActualizarHerramienta from '../components/ActualizarHerramienta';
+import axios from 'axios';
 
 
 function AdminHerramientas() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
+    const [materiales, setMateriales] = useState([]);
+
+    useEffect(() => {
+        cargarMateriales();
+    }, []);
+
+    const cargarMateriales = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/materiales');
+            setMateriales(response.data);
+        } catch (error) {
+            console.error('Error al cargar herramientas', error);
+            Swal.fire('Error', 'No se pudo cargar la lista de herramientas', 'error');
+        }
+    };
 
     const openModal = () => {
         setModalOpen(true);
@@ -55,22 +71,28 @@ function AdminHerramientas() {
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border bg-sky-200">#</th>
-                            <th class="py-2 px-4 border bg-sky-200">nombre de herramienta</th>
-                            <th class="py-2 px-4 border bg-sky-200">precio</th>
+                            <th class="py-2 px-4 border bg-sky-200">Nombre de materiales</th>
+                            <th class="py-2 px-4 border bg-sky-200">Precio</th>
+                            <th class="py-2 px-4 border bg-sky-200">Cantidades</th>
 
                             <th class="py-2 px-4 border bg-sky-200">Funciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="py-2 px-4 border">1</td>
-                            <td class="py-2 px-4 border"></td>
-                            <td class="py-2 px-4 border"></td>
-                            <td class="py-2 px-4 border">
-                                <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={mostrarAlerta} >Eliminar</button>
-                                <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={openModal2}>Actualizar</button>
-                            </td>
-                        </tr>
+                        {materiales.map((material, index) => (
+                            <tr key={material.id_material_usado}>
+
+                                <td class="py-2 px-4 border">{index + 1}</td>
+                                <td class="py-2 px-4 border">{material.nombre_material}</td>
+                                <td class="py-2 px-4 border">{material.precio_material}</td>
+                                <td class="py-2 px-4 border">{material.cantidad}</td>
+                                <td class="py-2 px-4 border">
+                                    <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={mostrarAlerta} >Eliminar</button>
+                                    <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={openModal2}>Actualizar</button>
+                                </td>
+                            </tr>
+                        ))}
+
 
                     </tbody>
                 </table>
@@ -80,13 +102,18 @@ function AdminHerramientas() {
                 <div className="App">
 
                     <AñadirHerramienta isOpen={modalOpen} onClose={closeModal}>
+                        
                         <h1 className="text-2xl mb-4 text-center font-bold">Añadir Herramienta</h1>
 
-                        <p className="text-center p-3 font-semibold">Herramienta</p>
+                        <p className="text-center p-3 font-semibold">Nombre de material</p>
                         <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
 
                         <p className="text-center p-3 font-semibold">Precio</p>
                         <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
+
+                        <p className="text-center p-3 font-semibold">Cantidad</p>
+                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
+
                     </AñadirHerramienta>
 
                     <ActualizarHerramienta isOpen2={modalOpen2} onClose={closeModal2}>

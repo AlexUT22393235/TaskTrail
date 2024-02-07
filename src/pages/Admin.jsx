@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import HeaderAdmin from '../components/HeaderAdmin';
+import Header from '../components/HeaderAdmin';
 import AñadirUsuario from '../components/AñadirUsuario';
 import ActualizarUsuario from '../components/ActualizarUsuario';
 
@@ -73,7 +73,7 @@ function Admin() {
 
     return (
         <>
-            <HeaderAdmin />
+            <Header></Header>
             <h1 className="text-center text-4xl font-bold">Registro de Usuarios</h1>
             <div className="p-2">
                 <button className="bg-blue-500 p-2 text-white hover:bg-blue-700" onClick={openModal}>Añadir Usuario</button>
