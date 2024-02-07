@@ -7,8 +7,9 @@ const materialesRouter = require("./router/materiales_Router");
 const codigo_verificacionRouter = require("./router/codigo_verificacionRouter");
 const loginRouter = require("./router/loginRouter");
 const emailRouter = require("./router/emailRouter");
-const trabajoRouter = require("./router/trabajosRouter"); // Importa el enrutador de trabajo
-const materialTrabajo = require("./router/materialTrabajoRouter");
+
+/* app va a tener todos los atributos y metodos de 
+express */
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/usuarios", usuariosRouter);
 app.use("/materiales", materialesRouter);
 app.use("/login", loginRouter);
 app.use('/email', emailRouter);
+
 app.use("/codigo_verificacion", codigo_verificacionRouter);
 app.use('/materialTrabajo', materialTrabajo);
 // Usa el enrutador de trabajo

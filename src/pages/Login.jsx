@@ -23,25 +23,15 @@ function Login() {
         // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
         console.log('Inicio de sesión exitoso', response.data);
-        
-        // Almacenar el correo electrónico en una cookie con una expiración de 1 día
-        Cookies.set('userEmail', response.data.email, { expires: 1 });
-
-        // Evaluar el rol y redirigir según el mismo
-        const rol = response.data.rol;
-        if (rol === 1) {
-          console.log('Redirigiendo a /AdminGeneral');
-          navigate('/AdminGeneral');
-        } else if (rol === 2) {
-          console.log('Redirigiendo a /CodigoVerificacion');
-          navigate('/ComponentePruebaEmail');
-        }
+        console.log('Redirigiendo a /Trabajos');
+        navigate('/Trabajos');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error.message);
       // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
+  
 
   return (
     <div className="flex h-screen w-screen">
@@ -89,6 +79,7 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-cyan-800 text-white p-2 rounded"
+              onClick={handleLogin}
             >
               Ingresar
             </button>

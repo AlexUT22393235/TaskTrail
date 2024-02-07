@@ -55,7 +55,7 @@ const ListaMaterial = () => {
                 
                 <th class="py-2 px-4 border bg-sky-200">Nombre</th>
                 <th class="py-2 px-4 border bg-sky-200">Precio</th>
-
+                <th class="py-2 px-4 border bg-sky-200">Cantidades</th>
               </tr>
             </thead>
 
@@ -69,6 +69,7 @@ const ListaMaterial = () => {
                   
                   <td class="py-2 px-4 border">{material.name}</td>
                   <td class="py-2 px-4 border">{material.price}</td>
+                  <td class="py-2 px-4 border"></td>
 
                 </tr>
 
