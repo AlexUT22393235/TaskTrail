@@ -7,13 +7,21 @@ import ListaMateriales from "../pages/ListaMaterial";
 import Cronometro from "../pages/Cronometro";
 import GeneradoCodigo from "../Functions/GeneradoCodigo";
 import Admin from "../pages/Admin";
-import AdminHerramientas from "../pages/AdminHerramientas";
-import Trabajos1 from "../pages/Trabajos1";
-import Token from "../pages/Token";
+// import AdminHerramientas from "../pages/AdminHerramientas";
+// import Trabajos1 from "../pages/Trabajos1";
+import CodigoVerificacion from "../pages/CodigoVerificacion";
+import ComponentePrueba from "../pages/ComponentePrueba";
+import ComponentePruebaEmail from "../pages/ComponentePruebaEmail";
+import AdminGeneral from '../pages/AdminGeneral'
+
 export const rutas = createBrowserRouter([
     {
         path: "/",
         element: <Login/>
+    },
+    {
+        path: "/Admin",
+        element: <Admin />
     },
     {
         path: "/Trabajos",
@@ -38,20 +46,31 @@ export const rutas = createBrowserRouter([
     {
         path: "/Codigo",
         element:<GeneradoCodigo/>
-    },{
-        path: "/Admin",
-        element: <Admin />
-    },{
-        path: "/AdminHerramientas",
-        element: <AdminHerramientas />
+    },
+    
+    // {
+    //     path: "/AdminHerramientas",
+    //     element: <AdminHerramientas />
+    // },
+    // {
+    //     path: "/Trabajos1",
+    //     element: <Trabajos1></Trabajos1>
+    // },
+    {
+        path: "/CodigoVerificacion",
+        element: <CodigoVerificacion />
     },
     {
-        path: "/Trabajos1",
-        element: <Trabajos1></Trabajos1>
+        path: "/ComponentePrueba",
+        element: <ComponentePrueba />
     },
     {
-        path: "/Token",
-        element: <Token />
+        path: "/ComponentePruebaEmail",
+        element: <ComponentePruebaEmail />
     },
+    {
+        path: "/AdminGeneral",
+        element: <AdminGeneral />
+    }
 
 ])

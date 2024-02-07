@@ -83,45 +83,10 @@ const eliminarUsuarioPorId = (req, res) => {
   });
 };
 
-
-
-const login = (req, res) => {
-  const { nombre, contrasenia } = req.body;
-  const sql = 'SELECT id_usuario, rol_id FROM usuario WHERE nombre_usuario = ? AND contrasenia = ?';
-
-  connection.query(sql, [nombre, contrasenia], (error, results) => {
-    if (error) {
-      console.error(error);
-      return res.json({ error: 'Error en la consulta' });
-    }
-
-    if (results.length === 1) {
-      const idUsuario = results[0].id_usuario;
-      const rolId = results[0].rol_id;
-
-      if (rolId === 1) {
-        return res.json({ mensaje: 'Autenticación exitosa como administrador', idUsuario, rol: 'admin' });
-      } else if (rolId === 2) {
-        return res.json({ mensaje: 'Autenticación exitosa como mecanico', idUsuario, rol: 'mecanico' });
-      } else {
-        return res.status(401).json({ error: 'Rol no reconocido' });
-      }
-    } else {
-      return res.status(401).json({ error: 'Credenciales incorrectas' });
-    }
-  });
-};
-
-
-
-
-
-
 module.exports = {
   obtenerUsuarios,
   obtenerUsuarioPorId,
   crearUsuario,
   actualizarUsuarioPorId,
-  eliminarUsuarioPorId,
-  login,
+  eliminarUsuarioPorId
 };

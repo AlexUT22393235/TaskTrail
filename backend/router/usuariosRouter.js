@@ -29,6 +29,5 @@ router.delete("/:id_usuario", usuariosControllers.eliminarUsuarioPorId);
 
 // router.post("/login", usuariosControllers.iniciarSesion);
 
-router.post("/login", usuariosControllers.login);
 
 module.exports = router;

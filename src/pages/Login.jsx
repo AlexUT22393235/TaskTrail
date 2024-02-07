@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 
 function Login() {
@@ -10,27 +11,35 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('http://localhost:3001/usuarios/login', {
-        nombre,
-        contrasenia,
+      const response = await axios.post('http://localhost:3001/login', {
+        nombre_usuario: nombre,
+        contrasenia: contrasenia,
       });
-
-      const userRoleId = response.data.rol_id;
-
-      console.log('Inicio de sesión exitoso', response.data);
-
-      if (userRoleId === 1) {
-        navigate('/Detalles');
-      } else if (userRoleId === 2) {
-        navigate('/Trabajos');
+  
+      if (response.data.error) {
+        console.error('Error en la consulta:', response.data.error);
+        // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
-        console.warn('ID de rol no soportado:', userRoleId);
-      }
+        console.log('Inicio de sesión exitoso', response.data);
+        
+        // Almacenar el correo electrónico en una cookie con una expiración de 1 día
+        Cookies.set('userEmail', response.data.email, { expires: 1 });
 
+        // Evaluar el rol y redirigir según el mismo
+        const rol = response.data.rol;
+        if (rol === 1) {
+          console.log('Redirigiendo a /AdminGeneral');
+          navigate('/AdminGeneral');
+        } else if (rol === 2) {
+          console.log('Redirigiendo a /CodigoVerificacion');
+          navigate('/ComponentePruebaEmail');
+        }
+      }
     } catch (error) {
-      console.error('Inicio de sesión fallido', error.response.data);
+      console.error('Error en la solicitud:', error.message);
+      // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
 
