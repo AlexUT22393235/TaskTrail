@@ -3,6 +3,8 @@ const cors = require("cors");
 const usuariosRouter = require("./router/usuariosRouter");
 const loginRouter = require("./router/loginRouter");
 const emailRouter = require("./router/emailRouter");
+const trabajoRouter = require("./router/trabajoRouter");
+const tipoTrabajoRouter = require("./router/tipoTrabajoRouter");
 
 /* app va a tener todos los atributos y metodos de 
 express */
@@ -16,6 +18,9 @@ app.use(express.json());
 app.use("/usuarios", usuariosRouter);
 app.use("/login", loginRouter);
 app.use('/email', emailRouter);
+app.use('/trabajos', trabajoRouter);
+app.use('/tipoTrabajo', tipoTrabajoRouter);
+
 
 
 app.get("/", (req, res) => {
