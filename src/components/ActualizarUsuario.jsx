@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import validator from 'validator';
 
 const ActualizarUsuario = ({ isOpen2, onClose, usuarioId }) => {
     const [nombreUsuario, setNombreUsuario] = useState('');
@@ -29,11 +30,22 @@ const ActualizarUsuario = ({ isOpen2, onClose, usuarioId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validación adicional para evitar que se actualicen campos con los valores "<>"
+        if (nombreUsuario.includes('<>') || contrasenia.includes('<>') || rolId.includes('<>')) {
+            return;
+        }
+
+        // Sanitiza los datos antes de enviarlos
+        const nombreUsuarioSanitized = validator.escape(nombreUsuario);
+        const contraseniaSanitized = validator.escape(contrasenia);
+        const rolIdSanitized = validator.escape(rolId);
+
         try {
             const response = await axios.put(`http://localhost:3001/usuarios/${usuarioId}`, {
-                nombre_usuario: nombreUsuario,
-                contrasenia,
-                rol_id: rolId,
+                nombre_usuario: nombreUsuarioSanitized,
+                contrasenia: contraseniaSanitized,
+                rol_id: rolIdSanitized,
             });
             Swal.fire('Éxito', 'Usuario actualizado correctamente', 'success');
             onClose();
@@ -43,7 +55,7 @@ const ActualizarUsuario = ({ isOpen2, onClose, usuarioId }) => {
             Swal.fire('Error', 'No se pudo actualizar el usuario', 'error');
         }
     };
-    
+
     if (!isOpen2) return null;
 
     return (

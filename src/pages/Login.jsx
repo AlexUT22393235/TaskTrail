@@ -7,31 +7,47 @@ import logo from '../assets/logo.jpeg';
 function Login() {
   const [nombre, setNombre] = useState('');
   const [contrasenia, setContrasenia] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
+    // Verificar si los campos están vacíos
+    if (!nombre || !contrasenia) {
+      setError('Por favor, complete todos los campos.');
+      return;
+    }
+
+    // Verificar si hay caracteres "<>"
+    if (nombre.includes('<') || nombre.includes('>')) {
+      setError('Parece que hubo un error en el nombre de usuario, intenta nuevamente.');
+      return;
+    }
+
+    if (contrasenia.includes('<') || contrasenia.includes('>')) {
+      setError('Parece que hubo un error en la contraseña, intenta nuevamente.');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3001/login', {
         nombre_usuario: nombre,
         contrasenia: contrasenia,
       });
-  
+
       if (response.data.error) {
+        setError('Credenciales inválidas, por favor inténtelo de nuevo.');
         console.error('Error en la consulta:', response.data.error);
-        // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
-        console.log('Inicio de sesión exitoso', response.data);
-        console.log('Redirigiendo a /Trabajos');
-        navigate('/Trabajos');
+        localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
+        navigate('/ComponentePruebaEmail');
       }
     } catch (error) {
+      setError('Error en la solicitud, por favor inténtelo de nuevo.');
       console.error('Error en la solicitud:', error.message);
-      // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
-  
 
   return (
     <div className="flex h-screen w-screen">
@@ -39,6 +55,7 @@ function Login() {
         <div className="max-w-md mx-auto border-2 rounded">
           <img src={logo} alt="Logo" className="mb-4 pt-28 pr-28 pl-28" />
           <h2 className="text-2xl text-center">INICIO SESIÓN</h2>
+          {error && <p className="text-red-500">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="mb-4">
               <label
@@ -79,7 +96,6 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-cyan-800 text-white p-2 rounded"
-              onClick={handleLogin}
             >
               Ingresar
             </button>
