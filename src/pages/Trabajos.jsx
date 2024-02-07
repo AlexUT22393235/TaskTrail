@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 const TuComponente = () => {
   const [descripcion, setDescripcion] = useState([]);
@@ -32,7 +33,9 @@ const TuComponente = () => {
   }, []);
 
   return (
-    <table className="min-w-full bg-white border border-gray-300">
+    <>
+<Header/>
+     <table className="min-w-full bg-white border border-gray-300">
       <thead>
         <tr>
           <th className="py-2 px-4 border bg-sky-200">#</th>
@@ -58,6 +61,8 @@ const TuComponente = () => {
         ))}
       </tbody>
     </table>
+    </>
+   
   );
 };
 
