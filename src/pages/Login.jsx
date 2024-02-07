@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 
 function Login() {
@@ -22,16 +23,8 @@ function Login() {
         // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
         console.log('Inicio de sesión exitoso', response.data);
-        
-        // Evaluar el rol y redirigir según el mismo
-        const rol = response.data.rol;
-        if (rol === 1) {
-          console.log('Redirigiendo a /AdminGeneral');
-          navigate('/AdminGeneral');
-        } else if (rol === 2) {
-          console.log('Redirigiendo a /Trabajos');
-          navigate('/Trabajos');
-        }
+        console.log('Redirigiendo a /Trabajos');
+        navigate('/Trabajos');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error.message);

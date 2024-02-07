@@ -8,7 +8,7 @@ function HeaderAdmin() {
             <div className="container mx-auto flex justify-between items-center">
                 <div className='flex'>
                      <h1 className="text-2xl font-bold mr-5">Alex Carrillo</h1>
-                <FaCircleUser size="3rem" className="mr-2" />
+                    <FaCircleUser size="3rem" className="mr-2" />
                 </div>
             </div>
 
