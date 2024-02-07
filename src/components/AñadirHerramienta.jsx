@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const AñadirHerramienta = ({ isOpen, onClose}) => {
     const [nombreMaterial, setNombreMaterial] = useState('');
-    const [precio, setPrecio] = useState('');
     const [cantidad, setCantidad] = useState('');
+    const [precio, setPrecio] = useState('');
     
 
     const handleSubmit = async (e) => {
@@ -23,6 +23,9 @@ const AñadirHerramienta = ({ isOpen, onClose}) => {
             });
             Swal.fire('Éxito', 'Material añadido correctamente', 'Correcto');
             onClose();
+            setNombreMaterial('');
+            setCantidad('');
+            setPrecio('');
             // Opcional: Agrega aquí una llamada a una función para recargar la lista de usuarios en el componente Admin
         } catch (error) {
             console.error('Error al añadir usuario', error);
