@@ -110,8 +110,7 @@ const closeModal = () => {
                         <p className="text-center p-3 font-semibold">Descripcion</p>
                         <textarea className="w-[100%] p-2 rounded-lg border bg-gray-200"></textarea>
 
-                        <p className="text-center p-3 font-semibold">Precio</p>
-                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" type='number'></input>
+                    
                     </Modal>
                 </div>
             </div>
