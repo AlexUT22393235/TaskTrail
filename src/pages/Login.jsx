@@ -40,8 +40,14 @@ function Login() {
         setError('Credenciales inválidas, por favor inténtelo de nuevo.');
         console.error('Error en la consulta:', response.data.error);
       } else {
-        localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
-        navigate('/ComponentePruebaEmail');
+        const usuario = response.data.usuario;
+
+        // Verificar el rol del usuario
+        if (usuario.rol === 1) {
+          navigate('/AdminGeneral');
+        } else {
+          navigate('/ComponentePruebaEmail'); // Cambia esto a la ruta que necesitas para el rol 2
+        }
       }
     } catch (error) {
       setError('Error en la solicitud, por favor inténtelo de nuevo.');
