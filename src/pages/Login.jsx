@@ -1,34 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 
 function Login() {
   const [nombre, setNombre] = useState('');
   const [contrasenia, setContrasenia] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleNombreChange = (e) => {
+    const value = e.target.value;
+    // Validar que el nombre de usuario permita solo caracteres alfanuméricos, arrobas y puntos
+    if (/^[a-zA-Z0-9@.]*$/.test(value)) {
+      setNombre(value);
+    }
+  };
+  
+
+  const handleContraseniaChange = (e) => {
+    const value = e.target.value;
+    // Validar que la contraseña no contenga caracteres especiales ni espacios en blanco
+    if (/^[a-zA-Z0-9]*$/.test(value)) {
+      setContrasenia(value);
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // Verificar si los campos están vacíos
-    if (!nombre || !contrasenia) {
-      setError('Por favor, complete todos los campos.');
-      return;
-    }
-
-    // Verificar si hay caracteres "<>"
-    if (nombre.includes('<') || nombre.includes('>')) {
-      setError('Parece que hubo un error en el nombre de usuario, intenta nuevamente.');
-      return;
-    }
-
-    if (contrasenia.includes('<') || contrasenia.includes('>')) {
-      setError('Parece que hubo un error en la contraseña, intenta nuevamente.');
-      return;
-    }
 
     try {
       const response = await axios.post('http://localhost:3001/login', {
@@ -37,21 +35,18 @@ function Login() {
       });
 
       if (response.data.error) {
-        setError('Credenciales inválidas, por favor inténtelo de nuevo.');
         console.error('Error en la consulta:', response.data.error);
+        // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
       } else {
-        const usuario = response.data.usuario;
-
-        // Verificar el rol del usuario
-        if (usuario.rol === 1) {
-          navigate('/AdminGeneral');
-        } else {
-          navigate('/ComponentePruebaEmail'); // Cambia esto a la ruta que necesitas para el rol 2
-        }
+        console.log('Inicio de sesión exitoso', response.data);
+        // Guardar el usuario en localStorage
+        localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
+        console.log('Redirigiendo a /ComponentePruebaEmail');
+        navigate('/ComponentePruebaEmail');
       }
     } catch (error) {
-      setError('Error en la solicitud, por favor inténtelo de nuevo.');
       console.error('Error en la solicitud:', error.message);
+      // Manejar el error según tus necesidades, puedes mostrar un mensaje al usuario, etc.
     }
   };
 
@@ -61,7 +56,6 @@ function Login() {
         <div className="max-w-md mx-auto border-2 rounded">
           <img src={logo} alt="Logo" className="mb-4 pt-28 pr-28 pl-28" />
           <h2 className="text-2xl text-center">INICIO SESIÓN</h2>
-          {error && <p className="text-red-500">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="mb-4">
               <label
@@ -75,7 +69,7 @@ function Login() {
                 id="username"
                 name="username"
                 value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
+                onChange={handleNombreChange}
                 className="w-full p-2 border-2 border-gray rounded"
                 placeholder="USUARIO"
               />
@@ -93,7 +87,7 @@ function Login() {
                 id="password"
                 name="password"
                 value={contrasenia}
-                onChange={(e) => setContrasenia(e.target.value)}
+                onChange={handleContraseniaChange}
                 className="w-full p-2 border-2 border-gray rounded"
                 placeholder="Ingrese su contraseña"
               />
