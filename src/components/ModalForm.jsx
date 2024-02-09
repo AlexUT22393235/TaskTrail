@@ -33,44 +33,48 @@ const ModalForm = ({ isOpen, closeModal, handleAddMaterial }) => {
       closeModal();
     }
   };
-
   const handleAddMaterialClick = () => {
     // Lógica para validar los campos antes de agregar el material
-    const isNameValid = materialName.trim() !== '';
-    const isPriceValid = materialPrice.trim() !== '';
-    const isQuantityValid = materialQuantity.trim() !== '';
-
+    // Se usa trimStart() o trimLeft() para evitar espacios al inicio
+    const isNameValid = materialName.trimStart() !== '';
+    const isPriceValid = materialPrice.trimStart() !== ''; // Asegúrate de que esto es adecuado para tu lógica de validación
+    const isQuantityValid = materialQuantity.trim() !== ''; // La cantidad, siendo un número, probablemente no necesite esta comprobación
+  
     if (!isNameValid || !isPriceValid || !isQuantityValid) {
       Swal.fire({
         icon: 'error',
         title: 'Parece que algo salió mal...',
-        text: 'Por favor complete todos los campos',
+        text: 'Por favor complete todos los campos correctamente.',
       });
       return;
     }
-
-    // Lógica para validar caracteres maliciosos
-    const isValidInput = /^[a-zA-Z0-9]*$/.test(materialName) && /^[0-9.]*$/.test(materialPrice) && /^[0-9]*$/.test(materialQuantity);
-
-    if (!isValidInput) {
+  
+    // Lógica para validar caracteres permitidos
+    // Ajusta la expresión regular si deseas permitir espacios en blanco en medio de los valores
+    const isValidNameInput = /^[a-zA-Z0-9 ]*$/.test(materialName.trimStart()); // Permitir espacios en blanco en medio
+    const isValidPriceInput = /^[0-9.]*$/.test(materialPrice.trimStart()); // Asumiendo que el precio puede contener dígitos y puntos
+    const isValidQuantityInput = /^[0-9]*$/.test(materialQuantity); // La cantidad debe ser solo números
+  
+    if (!isValidNameInput || !isValidPriceInput || !isValidQuantityInput) {
       Swal.fire({
         icon: 'error',
         title: 'Parece que algo salió mal...',
-        text: 'Los campos contienen caracteres no permitidos',
+        text: 'Los campos contienen caracteres no permitidos.',
       });
       return;
     }
-
+  
     // Lógica para agregar el material
     handleAddMaterial({
-      name: materialName,
-      price: materialPrice,
-      quantity: materialQuantity
+      name: materialName.trimStart(), // Asegúrate de eliminar espacios al principio
+      price: materialPrice.trimStart(), // Asegúrate de eliminar espacios al principio para el precio también
+      quantity: materialQuantity // No se modifica, asumiendo que es un número
     });
-
+  
     // Cerrar modal después de agregar el material
     closeModal();
   };
+  
 
   return (
     isOpen && (

@@ -12,6 +12,8 @@ const ListaMaterial = () => {
   useEffect(() => {
     // Obtener datos del localStorage al cargar la página
     const savedMaterials = localStorage.getItem('materialList');
+
+    //console.log(savedMaterials)
     if (savedMaterials) {
       setMaterialList(JSON.parse(savedMaterials));
     }
@@ -26,28 +28,37 @@ const ListaMaterial = () => {
   };
 
   const handleFinishRegistration = () => {
-    // Construir un array con los datos a enviar
-    const dataToSend = materialList.map(material => ({
-      nombre_material: material.nombre,
-      cantidad: material.cantidad,
-      precio_material: material.precio
-    }));
+    // Se asume que tu backend espera recibir un solo objeto material por petición
+    // y que el endpoint '/materiales' está configurado para manejar esto.
+  console.log(materialList)
+    // Crear una promesa para cada material y enviarlo individualmente
+    const sendMaterialPromises = materialList.map(material => {
+      const materialData = {
+        nombre_material: material.name,
+        cantidad: material.quantity,
+        precio_material: material.price
+      };
+
+      console.log(materialData)
   
-    
-    // Enviar datos a la base de datos
-    axios.post('http://localhost:3001/materiales', dataToSend)
-      .then(response => {
-        // Limpiar localStorage después de enviar los datos a la BD
-        localStorage.removeItem('materialList');
-        setMaterialList([]);
+      return axios.post('http://localhost:3001/materiales/', materialData);
+    });
+  
+    // Usar Promise.all para esperar a que todas las promesas se resuelvan
+    Promise.all(sendMaterialPromises)
+      .then(() => {
+        // Si todas las promesas se resuelven exitosamente, limpiar localStorage y actualizar el estado
+        localStorage.removeItem('materialList'); // Limpiar localStorage después de enviar los datos
+        setMaterialList([]); // Limpiar el estado de materialList
         Swal.fire({
           icon: 'success',
           title: 'Registro completado',
-          text: 'Los datos se han enviado correctamente a la base de datos',
+          text: 'Todos los materiales se han enviado correctamente a la base de datos',
         });
       })
       .catch(error => {
-        console.error('Error:', error);
+        // Manejar caso de error en alguna de las promesas
+        console.error('Error al enviar los materiales:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -55,6 +66,7 @@ const ListaMaterial = () => {
         });
       });
   };
+  
   
 
   const openModal = () => {
