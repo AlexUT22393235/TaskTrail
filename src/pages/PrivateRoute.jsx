@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
-const PrivateRoute = ({ element: Element, isAuthenticated, ...rest }) => (
-  <Route
-    {...rest}
-    element={isAuthenticated ? <Element /> : <Navigate to="/login" replace />}
-  />
-);
+const AuthChecker = ({ element }) => {
+  // Verificar si el usuario está autenticado (puedes implementar tu lógica de autenticación aquí)
+  const isAuthenticated = localStorage.getItem('usuario');
 
-export default PrivateRoute;
+  return isAuthenticated ? element : <Navigate to="/" />;
+};
+
+export default AuthChecker;
