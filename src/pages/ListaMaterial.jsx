@@ -1,32 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import ModalForm from '../components/ModalForm';
-import NuevoMaterialModal from '../components/NuevoMaterialModal';
-import { Link } from 'react-router-dom';
 import { IoArrowBack } from "react-icons/io5";
 import Header from '../components/Header';
 
 const ListaMaterial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [materialList, setMaterialList] = useState([
-    { id: '1', name: 'Material 1', price: '$10.00' },
-    { id: '2', name: 'Material 2', price: '$50.00' },
-    { id: '3', name: 'Material 3', price: '$134.00' },
-    { id: '4', name: 'Material 4', price: '$12.00' },
-    { id: '5', name: 'Material 5', price: '$90.00' },
-    { id: '6', name: 'Material 6', price: '$134.00' },
-    { id: '7', name: 'Material 7', price: '$23.00' },
-    { id: '8', name: 'Material 8', price: '$50.00' },
-    { id: '9', name: 'Material 9', price: '$184.00' },
-    // Agrega más materiales según sea necesario
-  ]);
+  const [materialList, setMaterialList] = useState([]);
 
-  const handleAddMaterial = (selectedMaterial) => {
-    // Lógica para agregar el material a la lista
-    const materialToAdd = materialList.find((material) => material.id === selectedMaterial);
-    if (materialToAdd) {
-      setMaterialList([...materialList, materialToAdd]);
+  useEffect(() => {
+    // Obtener datos del localStorage al cargar la página
+    const savedMaterials = localStorage.getItem('materialList');
+    if (savedMaterials) {
+      setMaterialList(JSON.parse(savedMaterials));
     }
+  }, []);
+
+  const handleAddMaterial = (material) => {
+    // Agregar nuevo material a la lista
+    setMaterialList([...materialList, material]);
+
+    // Guardar lista actualizada en localStorage
+    localStorage.setItem('materialList', JSON.stringify([...materialList, material]));
   };
+
+  const handleFinishRegistration = () => {
+    // Construir un array con los datos a enviar
+    const dataToSend = materialList.map(material => ({
+      nombre_material: material.nombre,
+      cantidad: material.cantidad,
+      precio_material: material.precio
+    }));
+  
+    
+    // Enviar datos a la base de datos
+    axios.post('http://localhost:3001/materiales', dataToSend)
+      .then(response => {
+        // Limpiar localStorage después de enviar los datos a la BD
+        localStorage.removeItem('materialList');
+        setMaterialList([]);
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro completado',
+          text: 'Los datos se han enviado correctamente a la base de datos',
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al enviar los datos a la base de datos',
+        });
+      });
+  };
+  
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -36,58 +65,42 @@ const ListaMaterial = () => {
     setIsModalOpen(false);
   };
 
-
-  
   return (
     <>
-    <Header ></Header>
-   
+      <Header />
       <h2 className="text-4xl font-bold text-center">Materiales</h2>
-
       <div className="flex justify-between items-center mb-4 p-5">
         <button className="p-2 bg-blue-500 text-white rounded w-[5%] hover:bg-blue-400" onClick={openModal}>Nuevo</button>
+        <button className="p-2 bg-blue-500 text-white rounded" onClick={handleFinishRegistration}>Terminar registro</button>
       </div>
       <div className="bg-sky-400 p-4 rounded-md">
-        <div class="container mx-auto p-3">
-          <table class="min-w-full bg-white border border-gray-300">
+        <div className="container mx-auto p-3">
+          <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr>
-                
-                <th class="py-2 px-4 border bg-sky-200">Nombre</th>
-                <th class="py-2 px-4 border bg-sky-200">Precio</th>
-                <th class="py-2 px-4 border bg-sky-200">Cantidades</th>
+                <th className="py-2 px-4 border bg-sky-200">Nombre</th>
+                <th className="py-2 px-4 border bg-sky-200">Precio</th>
+                <th className="py-2 px-4 border bg-sky-200">Cantidad</th>
               </tr>
             </thead>
-
-
-
             <tbody>
-
-              {materialList.map((material) => (
-
-                <tr>
-                  
-                  <td class="py-2 px-4 border">{material.name}</td>
-                  <td class="py-2 px-4 border">{material.price}</td>
-                  <td class="py-2 px-4 border"></td>
-
+              {materialList.map((material, index) => (
+                <tr key={index}>
+                  <td className="py-2 px-4 border">{material.name}</td>
+                  <td className="py-2 px-4 border">{material.price}</td>
+                  <td className="py-2 px-4 border">{material.quantity}</td>
                 </tr>
-
               ))}
             </tbody>
           </table>
-
         </div>
       </div>
       <ModalForm
         isOpen={isModalOpen}
         closeModal={closeModal}
         handleAddMaterial={handleAddMaterial}
-        materialList={materialList}
       />
-
     </>
-
   );
 };
 

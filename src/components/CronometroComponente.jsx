@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 
-function Cronometro() {
+function CronometroComponente() {
   const [tiempoTranscurrido, setTiempoTranscurrido] = useState(0);
   const [cronometroActivado, setCronometroActivado] = useState(false);
   const [esperandoConfirmacion, setEsperandoConfirmacion] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     let interval;
@@ -17,12 +14,9 @@ function Cronometro() {
       interval = setInterval(() => {
         setTiempoTranscurrido(prevTiempo => prevTiempo + 1);
       }, 1000);
-    } else if (!cronometroActivado && tiempoTranscurrido !== 0 && !esperandoConfirmacion) {
-      // Solo guardamos el tiempo si no estamos esperando confirmación
-      guardarTiempoEnBaseDeDatos(tiempoTranscurrido);
     }
     return () => clearInterval(interval);
-  }, [cronometroActivado, tiempoTranscurrido, esperandoConfirmacion]);
+  }, [cronometroActivado]);
 
   const formatearTiempo = (segundos) => {
     const horas = Math.floor(segundos / 3600);
@@ -39,32 +33,29 @@ function Cronometro() {
 
   const handleParar = () => {
     if (cronometroActivado) {
-      setEsperandoConfirmacion(true); // Mostrar alerta de confirmación antes de parar el cronómetro
+      setEsperandoConfirmacion(true);
     } else {
       setCronometroActivado(false);
       setEsperandoConfirmacion(false);
     }
   };
 
-  const handleConfirmarCambios = () => {
+  const handleConfirmarCambios = async () => {
     setEsperandoConfirmacion(false);
-    setCronometroActivado(false); // Parar el cronómetro después de confirmar cambios
-    guardarTiempoEnBaseDeDatos(tiempoTranscurrido);
-    navigate("/Secciones")
+    setCronometroActivado(false);
+    await guardarTiempoEnBaseDeDatos(tiempoTranscurrido);
   };
 
   const handleCancelarCambios = () => {
     setEsperandoConfirmacion(false);
-    setCronometroActivado(true); // Reiniciar el cronómetro si se cancelan los cambios
+    setCronometroActivado(true);
   };
 
   const guardarTiempoEnBaseDeDatos = async (tiempoSegundos) => {
-    const horasTrabajo = tiempoSegundos / 3600;
-  
     try {
       const response = await axios.post('http://localhost:3001/cronometro', {
         descripcion: 'Descripción del trabajo realizado',
-        segundosTranscurridos: tiempoSegundos,
+        segundosTranscurridos:  tiempoSegundos,
         tipo_trabajo_id: 1,
         tarifa_trabajo_id: 1,
         usuario_id: 1
@@ -74,8 +65,7 @@ function Cronometro() {
         title: 'Guardado',
         text: 'El tiempo de trabajo ha sido guardado exitosamente',
         icon: 'success',
-        timer: 1500, // Ocultar automáticamente después de 1.5 segundos
-        showConfirmButton: false
+        showConfirmButton: true // Mostrar el botón Ok
       });
     } catch (error) {
       console.error('Error al guardar el tiempo de trabajo', error);
@@ -90,8 +80,8 @@ function Cronometro() {
       <p className="text-center m-10 p-10 mb-1 text-5xl">Tiempo transcurrido:</p>
       <p className="text-center p-10 text-8xl">{formatearTiempo(tiempoTranscurrido)}</p>
       <div className="flex justify-center items-center space-x-24 mt-32">
-        <button className="bg-blue-900 text-white p-3 hover:bg-blue-700 rounded-lg mr-10 w-48 h-16" onClick={handleIniciar} disabled={cronometroActivado || esperandoConfirmacion}>Iniciar Trabajo</button>
-        <button className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg w-48 h-16" onClick={handleParar} disabled={!cronometroActivado && !esperandoConfirmacion}>Terminar Trabajo</button>
+        <button className="bg-blue-900 text-white p-3 hover:bg-blue-700 rounded-lg mr-10 w-48 h-16" onClick={handleIniciar} disabled={cronometroActivado}>Iniciar Trabajo</button>
+        <button className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg w-48 h-16" onClick={handleParar} disabled={!cronometroActivado}>Terminar Trabajo</button>
       </div>
       <div>
         {esperandoConfirmacion && (
@@ -110,4 +100,4 @@ function Cronometro() {
   );
 }
 
-export default Cronometro;
+export default CronometroComponente;

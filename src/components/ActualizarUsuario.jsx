@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import validator from 'validator';
 
 const ActualizarUsuario = ({ isOpen2, onClose, usuarioId }) => {
     const [nombreUsuario, setNombreUsuario] = useState('');
@@ -32,16 +33,10 @@ const ActualizarUsuario = ({ isOpen2, onClose, usuarioId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (esValorInvalido(nombreUsuario) || esValorInvalido(contrasenia) || esValorInvalido(rolId.toString())) {
-            Swal.fire('Error', 'Los campos no pueden contener "<" o ">".', 'error');
-            return; // Detiene la ejecución si se encuentra un valor inválido
-        }
-
         try {
-            await axios.put(`http://localhost:3001/usuarios/${usuarioId}`, {
+            const response = await axios.put(`http://localhost:3001/usuarios/${usuarioId}`, {
                 nombre_usuario: nombreUsuario,
-                contrasenia: contrasenia,
+                contrasenia,
                 rol_id: rolId,
             });
             Swal.fire('Éxito', 'Usuario actualizado correctamente', 'success');

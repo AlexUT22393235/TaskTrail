@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import validator from 'validator';
 
 const AñadirUsuario = ({ isOpen, onClose }) => {
     const [nombreUsuario, setNombreUsuario] = useState('');
@@ -9,16 +10,27 @@ const AñadirUsuario = ({ isOpen, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!nombreUsuario || !contrasenia || !rolId) {
+
+        // Validación adicional para evitar que se añadan campos con los valores "<>"
+        if (nombreUsuario.includes('<>') || contrasenia.includes('<>') || rolId.includes('<>')) {
+            return;
+        }
+
+        // Sanitiza los datos antes de enviarlos
+        const nombreUsuarioSanitized = validator.escape(nombreUsuario);
+        const contraseniaSanitized = validator.escape(contrasenia);
+        const rolIdSanitized = validator.escape(rolId);
+
+        if (!nombreUsuarioSanitized || !contraseniaSanitized || !rolIdSanitized) {
             Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
             return;
         }
 
         try {
             await axios.post('http://localhost:3001/usuarios', {
-                nombre_usuario: nombreUsuario,
-                contrasenia,
-                rol_id: rolId,
+                nombre_usuario: nombreUsuarioSanitized,
+                contrasenia: contraseniaSanitized,
+                rol_id: rolIdSanitized,
             });
             Swal.fire('Éxito', 'Usuario añadido correctamente', 'success');
             onClose();
