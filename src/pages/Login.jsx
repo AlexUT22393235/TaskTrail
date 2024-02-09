@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
+import { useTrabajoPendiente } from '../context/TrabajoPendienteContexto'; // Importamos el contexto
+
 
 function Login() {
     const [nombre, setNombre] = useState('');
     const [contrasenia, setContrasenia] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { setTrabajoPendiente } = useTrabajoPendiente(); // Obtenemos la función para actualizar el contexto
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -15,6 +19,13 @@ function Login() {
         // Verificar si los campos están vacíos
         if (!nombre || !contrasenia) {
             setError('Por favor, complete todos los campos.');
+            return;
+        }
+
+        // Validar la entrada del usuario para evitar inyección de SQL y scripts maliciosos
+        const caracteresProhibidos = /<|>|\/|\\/; // Expresión regular para detectar caracteres prohibidos
+        if (caracteresProhibidos.test(nombre) || caracteresProhibidos.test(contrasenia)) {
+            setError('Se han detectado caracteres no permitidos en los campos. Por favor, inténtelo de nuevo.');
             return;
         }
 
@@ -29,13 +40,23 @@ function Login() {
                 console.error('Error en la consulta:', response.data.error);
             } else {
                 const usuario = response.data; // Aquí accedemos a la respuesta del servidor directamente
+                
+                console.log("usuarioId",usuario.usuarioId )
+
+                setTrabajoPendiente((prevState) => ({
+    ...prevState,
+    usuario_id: usuario.usuarioId // Utiliza usuario.id_usuario en lugar de usuario.id
+}));
+// console.log("ID del usuario:", usuario.usuarioId);
 
                 // Verificar el rol del usuario
                 if (usuario.rol === 1) {
                     navigate('/AdminGeneral');
+                    
                 } else {
                     navigate('/ComponentePruebaEmail'); // Cambia esto a la ruta que necesitas para el rol 2
                 }
+                
             }
         } catch (error) {
             setError('Error en la solicitud, por favor inténtelo de nuevo.');
