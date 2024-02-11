@@ -41,7 +41,7 @@ function Login() {
         console.log('Inicio de sesión exitoso', response.data);
         // Guardar el usuario en localStorage
         localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
-        console.log('Redirigiendo a /ComponentePruebaEmail');
+        console.log('Redirigiendo a /Admin');
         navigate('/ComponentePruebaEmail');
       }
     } catch (error) {
@@ -55,15 +55,10 @@ function Login() {
       <div className="flex items-center justify-center h-screen w-2/5 bg-white p-8">
         <div className="max-w-md mx-auto border-2 rounded">
           <img src={logo} alt="Logo" className="mb-4 pt-28 pr-28 pl-28" />
-          <h2 className="text-2xl text-center">INICIO SESIÓN</h2>
+          <h2 className="text-2xl text-center">INICIA SESION</h2>
           <form onSubmit={handleLogin}>
             <div className="mb-4">
-              <label
-                className="block text-white text-sm font-semibold mb-2"
-                htmlFor="username"
-              >
-                USUARIO
-              </label>
+             
               <input
                 type="text"
                 id="username"
@@ -71,17 +66,12 @@ function Login() {
                 value={nombre}
                 onChange={handleNombreChange}
                 className="w-full p-2 border-2 border-gray rounded"
-                placeholder="USUARIO"
+                placeholder="Usuario"
               />
             </div>
 
             <div className="mb-4">
-              <label
-                className="block text-white text-sm font-semibold mb-2"
-                htmlFor="password"
-              >
-                Contraseña
-              </label>
+             
               <input
                 type="password"
                 id="password"
