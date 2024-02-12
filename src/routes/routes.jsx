@@ -3,11 +3,8 @@ import Login from '../pages/Login'
 import Trabajos from "../pages/Trabajos";
 import Detalles from "../pages/Detalles";
 import Secciones from "../pages/Secciones";
-import Cronometro from "../pages/Cronometro";
 import GeneradoCodigo from "../Functions/GeneradoCodigo";
 import Admin from "../pages/Admin";
-import AdminHerramientas from "../pages/AdminHerramientas";
-import Trabajos1 from "../pages/Trabajos1";
 import CodigoVerificacion from "../pages/CodigoVerificacion";
 import ComponentePrueba from "../pages/ComponentePrueba";
 import ComponentePruebaEmail from "../pages/ComponentePruebaEmail";
@@ -46,24 +43,13 @@ export const rutas = createBrowserRouter([
             <Secciones />
         </TrabajoPendienteProvider>)
     },
-  
-    {
-        path: "/Cronometro",
-        element: <Cronometro />
-    },
     {
         path: "/Codigo",
         element:<GeneradoCodigo/>
     },
     
-    {
-        path: "/AdminHerramientas",
-        element: <AdminHerramientas />
-    },
-    {
-        path: "/Trabajos1",
-        element: <Trabajos1></Trabajos1>
-    },
+    
+   
     {
         path: "/CodigoVerificacion",
         element: <CodigoVerificacion />

@@ -74,11 +74,14 @@ const Trabajos = () => {
   }, []);
 
   useEffect(() => {
-    // Hacer la solicitud a la API para obtener la lista de trabajos
     axios.get('http://localhost:3001/tipoTrabajo')
       .then(response => {
-        // Actualizar el estado con los datos recibidos
-        setTiposTrabajo(response.data);
+        // Verifica que la respuesta sea un array antes de actualizar el estado
+        if (Array.isArray(response.data)) {
+          setTiposTrabajo(response.data);
+        } else {
+          console.error('La respuesta no es un array:', response.data);
+        }
       })
       .catch(error => {
         console.error('Error al obtener información del trabajo', error);

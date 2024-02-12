@@ -77,7 +77,7 @@ const ListaMaterial = () => {
   };
 
   return (
-    <div className="flex flex-col mr-4 mb-36">
+    <div className="flex flex-col mb-32 mt-2">
       <h1 className="font-semibold text-5xl text-center mb-4">MATERIALES</h1>
       <div className="flex justify-between items-center mb-4 p-5">
         <button
@@ -93,27 +93,25 @@ const ListaMaterial = () => {
           Terminar registro
         </button>
       </div>
-      <div className="bg-sky-400 p-4 rounded-md">
-        <div className="container mx-auto p-3">
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border bg-sky-200">Nombre</th>
-                <th className="py-2 px-4 border bg-sky-200">Precio</th>
-                <th className="py-2 px-4 border bg-sky-200">Cantidad</th>
+      <div className="container mx-auto p-3">
+        <table className="w-full table-auto bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border bg-sky-200">Nombre</th>
+              <th className="py-2 px-4 border bg-sky-200">Precio</th>
+              <th className="py-2 px-4 border bg-sky-200">Cantidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {materialList.map((material, index) => (
+              <tr key={index}>
+                <td className="py-2 px-4 border">{material.name}</td>
+                <td className="py-2 px-4 border">{material.price}</td>
+                <td className="py-2 px-4 border">{material.quantity}</td>
               </tr>
-            </thead>
-            <tbody>
-              {materialList.map((material, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border">{material.name}</td>
-                  <td className="py-2 px-4 border">{material.price}</td>
-                  <td className="py-2 px-4 border">{material.quantity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
       <ModalForm isOpen={isModalOpen} closeModal={closeModal} handleAddMaterial={handleAddMaterial} />
     </div>

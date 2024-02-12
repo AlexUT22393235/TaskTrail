@@ -74,25 +74,8 @@ function CronometroComponente() {
 
   return (
     <div className="flex flex-col mr-4">
-      <h1 className="font-semibold text-5xl text-center mb-4">CRONÓMETRO DE TRABAJO</h1>
-      {/* <p className="text-center m-10 p-10 mb-1 text-5xl">Tiempo transcurrido:</p> */}
-      <p className="text-center p-10 text-8xl mt-7">{formatearTiempo(tiempoTranscurrido)}</p>
-      <div className="flex justify-center items-center space-x-24 mt-32">
-        <button
-          className="bg-blue-900 text-white p-3 hover:bg-blue-700 rounded-lg mr-10 w-48 h-16"
-          onClick={handleIniciar}
-          disabled={cronometroActivado}
-        >
-          Iniciar Trabajo
-        </button>
-        <button
-          className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg w-48 h-16"
-          onClick={handleParar}
-          disabled={!cronometroActivado}
-        >
-          Terminar Trabajo
-        </button>
-      </div>
+      <h1 className="font-semibold text-5xl text-center mb-32 mt-4">CRONÓMETRO DE TRABAJO</h1>
+
       {esperandoConfirmacion && (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-6">
@@ -114,8 +97,27 @@ function CronometroComponente() {
           </div>
         </div>
       )}
+
+      <p className="text-center p-10 text-9xl mt-7 mb-32">{formatearTiempo(tiempoTranscurrido)}</p>
+      <div className="flex justify-center items-center space-x-24 mt-32">
+        <button
+          className="bg-blue-900 text-white p-3 hover:bg-blue-700 rounded-lg mr-10 w-48 h-16"
+          onClick={handleIniciar}
+          disabled={cronometroActivado}
+        >
+          Iniciar Trabajo
+        </button>
+        <button
+          className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg w-48 h-16"
+          onClick={handleParar}
+          disabled={!cronometroActivado}
+        >
+          Terminar Trabajo
+        </button>
+      </div>
     </div>
   );
+
 }
 
 export default CronometroComponente;
