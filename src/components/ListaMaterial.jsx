@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import ModalForm from '../components/ModalForm';
+import ModalForm from './ModalForm';
 import { IoArrowBack } from "react-icons/io5";
-import Header from '../components/Header';
 
 const ListaMaterial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,12 +77,21 @@ const ListaMaterial = () => {
   };
 
   return (
-    <>
-      <Header />
-      <h2 className="text-4xl font-bold text-center">Materiales</h2>
+    <div className="flex flex-col mr-4 mb-36">
+      <h1 className="font-semibold text-5xl text-center mb-4">MATERIALES</h1>
       <div className="flex justify-between items-center mb-4 p-5">
-        <button className="p-2 bg-blue-500 text-white rounded w-[5%] hover:bg-blue-400" onClick={openModal}>Nuevo</button>
-        <button className="p-2 bg-blue-500 text-white rounded" onClick={handleFinishRegistration}>Terminar registro</button>
+        <button
+          className="bg-blue-500 text-white p-3 hover:bg-blue-700 rounded-lg mr-4 w-48 h-16"
+          onClick={openModal}
+        >
+          Nuevo
+        </button>
+        <button
+          className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg w-48 h-16"
+          onClick={handleFinishRegistration}
+        >
+          Terminar registro
+        </button>
       </div>
       <div className="bg-sky-400 p-4 rounded-md">
         <div className="container mx-auto p-3">
@@ -107,12 +115,8 @@ const ListaMaterial = () => {
           </table>
         </div>
       </div>
-      <ModalForm
-        isOpen={isModalOpen}
-        closeModal={closeModal}
-        handleAddMaterial={handleAddMaterial}
-      />
-    </>
+      <ModalForm isOpen={isModalOpen} closeModal={closeModal} handleAddMaterial={handleAddMaterial} />
+    </div>
   );
 };
 

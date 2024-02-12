@@ -3,7 +3,6 @@ import Login from '../pages/Login'
 import Trabajos from "../pages/Trabajos";
 import Detalles from "../pages/Detalles";
 import Secciones from "../pages/Secciones";
-import ListaMateriales from "../pages/ListaMaterial";
 import Cronometro from "../pages/Cronometro";
 import GeneradoCodigo from "../Functions/GeneradoCodigo";
 import Admin from "../pages/Admin";
@@ -47,10 +46,7 @@ export const rutas = createBrowserRouter([
             <Secciones />
         </TrabajoPendienteProvider>)
     },
-    {
-        path: "/ListaMateriales",
-        element: <ListaMateriales />
-    },
+  
     {
         path: "/Cronometro",
         element: <Cronometro />
