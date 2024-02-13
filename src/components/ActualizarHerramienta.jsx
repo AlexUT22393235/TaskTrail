@@ -62,8 +62,7 @@ const ListaMaterial = () => {
 
     return (
         <>
-            <Header />
-            <h2 className="text-4xl font-bold text-center">Materiales</h2>
+       
             <div className="flex justify-between items-center mb-4 p-5">
                 <button className="p-2 bg-blue-500 text-white rounded w-[5%] hover:bg-blue-400" onClick={openModal}>Nuevo</button>
                 <button className="p-2 bg-blue-500 text-white rounded" onClick={handleFinishRegistration}>Terminar registro</button>

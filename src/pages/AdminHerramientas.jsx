@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import HeaderAdmin from '../components/HeaderAdmin';
+import Header from '../components/HeaderAdmin';
 import AñadirHerramienta from '../components/AñadirHerramienta';
 import ActualizarHerramienta from '../components/ActualizarHerramienta';
 
@@ -68,34 +68,40 @@ function AdminHerramientas() {
 
     return (
         <>
-            <HeaderAdmin />
+            <Header />
             <h1 className="text-center text-4xl font-bold">Registro de Herramientas</h1>
             <div className="p-2">
-                <button className="w-[3%] bg-blue-950 p-4 text-white hover:bg-blue-700" onClick={openModal}>+</button>
+                <AñadirHerramienta isOpen={modalOpen} onClose={closeModal} cargarMateriales={cargarMateriales} />
+
+                <ActualizarHerramienta isOpen2={modalOpen2} onClose={closeModal2} materialId={materialId} cargarMateriales={cargarMateriales} />
+               {/*<button className="w-[3%] bg-blue-950 p-4 text-white hover:bg-blue-700" onClick={openModal}>+</button> */} 
             </div>
 
             {/* Tabla de trabajos */}
-            <div className="container mx-auto p-3">
-                <table className="w-full bg-white border border-gray-300">
+            <div className="">
+                <table className="w-full p-4 mx-auto overflow-hidden rounded-lg shadow-lg max-w-7xl">
                     <thead>
-                        <tr>
-                            <th className="py-2 px-4 border bg-sky-200">#</th>
-                            <th className="py-2 px-4 border bg-sky-200">Nombre de materiales</th>
-                            <th className="py-2 px-4 border bg-sky-200">Precio</th>
-                            <th className="py-2 px-4 border bg-sky-200">Cantidades</th>
-                            <th className="py-2 px-4 border bg-sky-200">Funciones</th>
+                        <tr className="text-white bg-blue-500">
+                            <th className="px-4 py-2 text-lg font-semibold">#</th>
+                            <th className="px-4 py-2 text-lg font-semibold">Nombre de materiales</th>
+                            <th className="px-4 py-2 text-lg font-semibold">Precio</th>
+                            <th className="px-4 py-2 text-lg font-semibold">Cantidades</th>
+                            <th className="px-4 py-2 text-lg font-semibold">Funciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {materiales.map((material, index) => (
-                            <tr key={material.id_material_usado}>
-                                <td className="py-2 px-4 border">{index + 1}</td>
-                                <td className="py-2 px-4 border">{material.nombre_material}</td>
-                                <td className="py-2 px-4 border">{material.precio_material}</td>
-                                <td className="py-2 px-4 border">{material.cantidad}</td>
-                                <td className="py-2 px-4 border">
-                                    <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={() => handleDelete(material.id_material_usado)}>Eliminar</button>
-                                    <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={() => openModal2(material.id_material_usado)}>Actualizar</button>
+                            <tr key={material.id_material_usado} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+                                <td className="px-4 py-2 border">{index + 1}</td>
+                                <td className="px-4 py-2 border">{material.nombre_material}</td>
+                                <td className="py-4 px-2 border">{material.precio_material}</td>
+                                <td className="py-4 px-2 border">{material.cantidad}</td>
+                                <td className="py-4px-2 border">
+                                    <div className="flex justify-center gap-20">
+                                        <button className="px-4 py-2 text-white bg-red-500 rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={() => handleDelete(material.id_material_usado)}>Eliminar</button>
+                                    <button className="px-4 py-2 text-white bg-green-500 rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={() => openModal2(material.id_material_usado)}>Actualizar</button>
+                                    </div>
+                                    
                                 </td>
                             </tr>
                         ))}
@@ -103,9 +109,7 @@ function AdminHerramientas() {
                 </table>
             </div>
 
-            <AñadirHerramienta isOpen={modalOpen} onClose={closeModal} cargarMateriales={cargarMateriales} />
 
-            <ActualizarHerramienta isOpen2={modalOpen2} onClose={closeModal2} materialId={materialId} cargarMateriales={cargarMateriales} />
         </>
     );
 }

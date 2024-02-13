@@ -94,14 +94,14 @@ const Trabajos = () => {
       </div>
 
       <div>
-        <table className="min-w-full bg-white border border-gray-300">
+        <table className="w-full p-4 mx-auto overflow-hidden rounded-lg shadow-lg max-w-7xl">
           <thead>
             <tr className="text-white bg-blue-500">
-              <th className="px-4 py-2 border">#</th>
-              <th className="px-4 py-2 border">Trabajo</th>
-              <th className="px-4 py-2 border">Descripción</th>
-              <th className="px-4 py-2 border">Precio</th>
-              <th className="px-4 py-2 border">Detalles</th>
+              <th className="px-4 py-2 text-lg font-semibold">#</th>
+              <th className="px-4 py-2 text-lg font-semibold">Trabajo</th>
+              <th className="px-4 py-2 text-lg font-semibold">Descripción</th>
+              <th className="px-4 py-2 text-lg font-semibold">Precio</th>
+              <th className="px-4 py-2 text-lg font-semibold">Detalles</th>
             </tr>
           </thead>
           <tbody>
