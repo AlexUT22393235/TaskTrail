@@ -43,15 +43,20 @@ const [tarifaSeleccionada, setTarifaSeleccionada] = useState('');
 
 
   const handleTipoTrabajoChange = (event) => {
-    
-    setTipoTrabajoSeleccionado(event.target.value);
+    const tipoTrabajoId = event.target.value; // Obtener el ID del tipo de trabajo seleccionado
+    setTipoTrabajoSeleccionado(tipoTrabajoId); // Actualizar el estado con el ID del tipo de trabajo
+  
+    // Guardar el ID del tipo de trabajo seleccionado en el localStorage
+    localStorage.setItem('tipoTrabajoId', tipoTrabajoId);
   };
-
+  
   const handleTarifaChange = (event) => {
-    // Setea el valor seleccionado, que debería ser el ID de la tarifa, como estado
-    setTarifaSeleccionada(event.target.value);
+    const tarifaId = event.target.value; // Obtener el ID de la tarifa seleccionada
+    setTarifaSeleccionada(tarifaId); // Actualizar el estado con el ID de la tarifa
+  
+    // Guardar el ID de la tarifa seleccionada en el localStorage
+    localStorage.setItem('tarifaId', tarifaId);
   };
-
   const handleDescripcionChange = (event) => {
     setDescripcionTrabajo(event.target.value);
   };
@@ -175,15 +180,14 @@ const [tarifaSeleccionada, setTarifaSeleccionada] = useState('');
 <select className="w-full p-2 rounded-lg border text-center text-black" onChange={handleTipoTrabajoChange}>
   <option>Selecciona un tipo de trabajo</option>
   {tiposTrabajo.map((tipoTrabajo) => (
-    <option key={tipoTrabajo.id} value={tipoTrabajo.id}>{tipoTrabajo.nombre_tipo_trabajo}</option>
+    <option key={tipoTrabajo.id_tipo_trabajo} value={tipoTrabajo.id_tipo_trabajo}>{tipoTrabajo.nombre_tipo_trabajo}</option>
   ))}
 </select>
 <p className="text-center p-3 font-semibold">Tarifa</p>
 <select className="w-full p-2 rounded-lg border text-center text-black" onChange={handleTarifaChange}>
-<option>Selecciona una tarifa</option>
-
+  <option>Selecciona una tarifa</option>
   {tarifas.map((tarifa) => (
-    <option key={tarifa.id} value={tarifa.id}>{tarifa.nombre_tarifa}</option>
+    <option key={tarifa.id_tarifa_trabajo} value={tarifa.id_tarifa_trabajo}>{tarifa.nombre_tarifa}</option>
   ))}
 </select>
             <p className="text-center p-3 font-semibold">Descripcion</p>

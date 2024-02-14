@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
 function CronometroComponente() {
@@ -11,11 +10,24 @@ function CronometroComponente() {
     let interval;
     if (cronometroActivado) {
       interval = setInterval(() => {
-        setTiempoTranscurrido(prevTiempo => prevTiempo + 1);
+        setTiempoTranscurrido(prevTiempo => {
+          // Guardar el tiempo en localStorage
+          localStorage.setItem('tiempoTranscurrido', prevTiempo + 1);
+          return prevTiempo + 1;
+        });
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [cronometroActivado]);
+
+  useEffect(() => {
+    // Cargar el tiempo desde localStorage al montar el componente
+    const tiempoGuardado = localStorage.getItem('tiempoTranscurrido');
+    if (tiempoGuardado) {
+      setTiempoTranscurrido(parseInt(tiempoGuardado));
+    }
+    console.log('Tiempo guardado en localStorage:', tiempoGuardado);
+  }, []);
 
   const formatearTiempo = (segundos) => {
     const horas = Math.floor(segundos / 3600);
@@ -39,37 +51,14 @@ function CronometroComponente() {
     }
   };
 
-  const handleConfirmarCambios = async () => {
+  const handleConfirmarCambios = () => {
     setEsperandoConfirmacion(false);
     setCronometroActivado(false);
-    await guardarTiempoEnBaseDeDatos(tiempoTranscurrido);
   };
 
   const handleCancelarCambios = () => {
     setEsperandoConfirmacion(false);
     setCronometroActivado(true);
-  };
-
-  const guardarTiempoEnBaseDeDatos = async (tiempoSegundos) => {
-    try {
-      const response = await axios.post('http://localhost:3001/cronometro', {
-        descripcion: 'Descripción del trabajo realizado',
-        segundosTranscurridos:  tiempoSegundos,
-        tipo_trabajo_id: 1,
-        tarifa_trabajo_id: 1,
-        usuario_id: 1
-      });
-  
-      Swal.fire({
-        title: 'Guardado',
-        text: 'El tiempo de trabajo ha sido guardado exitosamente',
-        icon: 'success',
-        showConfirmButton: true // Mostrar el botón Ok
-      });
-    } catch (error) {
-      console.error('Error al guardar el tiempo de trabajo', error);
-      Swal.fire('Error', 'No se pudo guardar el tiempo de trabajo', 'error');
-    }
   };
 
   return (
@@ -117,7 +106,6 @@ function CronometroComponente() {
       </div>
     </div>
   );
-
 }
 
 export default CronometroComponente;
