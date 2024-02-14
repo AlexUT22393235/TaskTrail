@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Modal from '../components/AñadirTrabajo';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
-import { useTrabajoPendiente } from '../context/TrabajoPendienteContexto';
 
 const Trabajos = () => {
   const [descripcion, setDescripcion] = useState([]);
@@ -13,7 +12,6 @@ const Trabajos = () => {
   const [tiposTrabajo, setTiposTrabajo] = useState([]);
   const [tipoTrabajoSeleccionado, setTipoTrabajoSeleccionado] = useState('');
   const [descripcionTrabajo, setDescripcionTrabajo] = useState('');
-  const { trabajoPendiente, setTrabajoPendiente } = useTrabajoPendiente(); // Obtiene el estado y la función para actualizarlo desde el contexto
   const [tarifas, setTarifas] = useState([]);
 const [tarifaSeleccionada, setTarifaSeleccionada] = useState('');
 
@@ -61,13 +59,7 @@ console.log("Usuario ID en Trabajos:", trabajoPendiente.usuario_id);
 
   const capturarTrabajoPendiente = () => {
     // Almacena el trabajo pendiente en el estado
-    setTrabajoPendiente((prevState) => ({
-      ...prevState,
-      descripcion: descripcionTrabajo,
-      tipo_trabajo_id: tipoTrabajoSeleccionado,
-      tarifa_id: tarifaSeleccionada
-      // Puedes agregar más datos aquí según sea necesario
-    }));
+    
     closeModal(); // Cierra el modal después de capturar los datos
 
     console.log("Descripción:", descripcionTrabajo, "Tipo trabajo", tipoTrabajoSeleccionado, "Tarifa seleccionada", tarifaSeleccionada)
