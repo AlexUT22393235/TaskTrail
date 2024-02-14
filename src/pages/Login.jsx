@@ -11,14 +11,14 @@ function Login() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { trabajoPendiente, setTrabajoPendiente } = useTrabajoPendiente(); // Obtenemos la función para actualizar el contexto
-    
+    const [usuarioId, setUsuarioId] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
         // Este código se ejecutará después de que el estado se haya actualizado
         setTrabajoPendiente((prevState) => ({
             ...prevState,
-            usuario_id: usuario.usuarioId || null,
+            usuario_id: usuario.usuarioId,
         }));
 
         // Verificar si los campos están vacíos
