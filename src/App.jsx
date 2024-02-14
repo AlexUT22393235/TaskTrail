@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Login from './pages/Login'
 
+
 function App() {
 
   return (
@@ -12,4 +13,4 @@ function App() {
   );
 };
 
-export default AppRoutes;
+export default App;

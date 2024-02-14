@@ -78,34 +78,34 @@ const ListaMaterial = () => {
 
   return (
     <div className="flex flex-col mb-32 mt-2">
-      <h1 className="font-semibold text-5xl text-center mb-4">MATERIALES</h1>
-      <div className="flex justify-between items-center mb-4 p-5">
+      <h1 className="font-semibold text-4xl sm:text-5xl text-center mb-4">MATERIALES</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 p-5">
         <button
-          className="bg-blue-500 text-white p-3 hover:bg-blue-700 rounded-lg mr-4 w-48 h-16"
+          className="bg-blue-500 text-white p-3 hover:bg-blue-700 rounded-lg mb-2 sm:mb-0 sm:mr-4 sm:w-full"
           onClick={openModal}
         >
           Nuevo
         </button>
         <button
-          className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg w-48 h-16"
+          className="bg-blue-400 text-white p-3 hover:bg-blue-300 rounded-lg sm:w-full"
           onClick={handleFinishRegistration}
         >
           Terminar registro
         </button>
       </div>
-      <div className="container mx-auto p-3">
-        <table className="w-full table-auto bg-white border border-gray-300">
+      <div className="container mx-auto p-3 overflow-x-auto">
+        <table className="w-full p-4 mx-auto overflow-hidden rounded-lg shadow-lg max-w-7xl">
           <thead>
-            <tr>
-              <th className="py-2 px-4 border bg-sky-200">Nombre</th>
-              <th className="py-2 px-4 border bg-sky-200">Precio</th>
-              <th className="py-2 px-4 border bg-sky-200">Cantidad</th>
+            <tr className="text-white bg-blue-500">
+              <th className="px-4 py-2 text-lg font-semibold">Nombre</th>
+              <th className="px-4 py-2 text-lg font-semibold">Precio</th>
+              <th className="px-4 py-2 text-lg font-semibold">Cantidad</th>
             </tr>
           </thead>
           <tbody>
             {materialList.map((material, index) => (
               <tr key={index}>
-                <td className="py-2 px-4 border">{material.name}</td>
+                <td className="px-4 py-2 border">{material.name}</td>
                 <td className="py-2 px-4 border">{material.price}</td>
                 <td className="py-2 px-4 border">{material.quantity}</td>
               </tr>

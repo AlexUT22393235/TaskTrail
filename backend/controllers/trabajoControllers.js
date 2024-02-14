@@ -14,6 +14,21 @@ const obtenerTrabajo = (req, res) => {
 
 };
 
+const obtenerTrabajoPorUsuario = (req, res) => {
+    const usuarioId = req.body.id_usuario; // Asegúrate de tener acceso al ID del usuario en el cuerpo
+    connection.query("SELECT * FROM trabajo WHERE usuario_id = ?", [usuarioId], (error, results) => {
+        if (error) {
+            console.error("Error al obtener trabajos por usuario", error);
+            res.status(500).json({
+                error: "Error al obtener trabajos por usuario",
+            });
+        } else {
+            res.json(results);
+        }
+    });
+};
+
+
 const crearTrabajo = (req, res) => {
     const { descripcion, horas_trabajo, tipo_trabajo_id, tarifa_trabajo_id, usuario_id } = req.body;
 
@@ -67,6 +82,7 @@ const eliminarTrabajo = (req, res) => {
 
 module.exports = {
     obtenerTrabajo,
+    obtenerTrabajoPorUsuario,
     crearTrabajo,
     eliminarTrabajo
 };

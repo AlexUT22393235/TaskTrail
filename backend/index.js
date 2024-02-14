@@ -9,7 +9,7 @@ const emailRouter = require("./router/emailRouter");
 const trabajoRouter = require("./router/trabajoRouter");
 const tipoTrabajoRouter = require("./router/tipoTrabajoRouter");
 const cronometroControllers = require("./router/cronometroRouter");
-
+const tarifaRouter = require("./router/tarifa_Router")
 
 /* app va a tener todos los atributos y metodos de 
 express */
@@ -34,6 +34,8 @@ app.use('/tipoTrabajo', tipoTrabajoRouter);
 
 app.use("/codigo_verificacion", codigo_verificacionRouter);
 app.use("/cronometro", cronometroControllers)
+app.use("/tarifa", tarifaRouter)
+
 
 
 app.get("/", (req, res) => {

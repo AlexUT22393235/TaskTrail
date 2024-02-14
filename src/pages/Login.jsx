@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
@@ -10,11 +10,16 @@ function Login() {
     const [contrasenia, setContrasenia] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { setTrabajoPendiente } = useTrabajoPendiente(); // Obtenemos la función para actualizar el contexto
-
+    const { trabajoPendiente, setTrabajoPendiente } = useTrabajoPendiente(); // Obtenemos la función para actualizar el contexto
+    
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        // Este código se ejecutará después de que el estado se haya actualizado
+        setTrabajoPendiente((prevState) => ({
+            ...prevState,
+            usuario_id: usuario.usuarioId || null,
+        }));
 
         // Verificar si los campos están vacíos
         if (!nombre || !contrasenia) {
@@ -41,13 +46,11 @@ function Login() {
             } else {
                 const usuario = response.data; // Aquí accedemos a la respuesta del servidor directamente
                 
-                console.log("usuarioId",usuario.usuarioId )
+                // console.log("usuarioId",usuario.usuarioId )
 
-                setTrabajoPendiente((prevState) => ({
-    ...prevState,
-    usuario_id: usuario.usuarioId // Utiliza usuario.id_usuario en lugar de usuario.id
-}));
-// console.log("ID del usuario:", usuario.usuarioId);
+                
+                
+                  
 
                 // Verificar el rol del usuario
                 if (usuario.rol === 1) {
@@ -63,6 +66,12 @@ function Login() {
             console.error('Error en la solicitud:', error.message);
         }
     };
+
+    useEffect(() => {
+        // Este useEffect se ejecutará después de que el estado del contexto se haya actualizado
+        console.log("usuario por contexto", trabajoPendiente.usuario_id);
+        // Puedes colocar cualquier lógica adicional aquí
+    }, [trabajoPendiente.usuario_id]);
 
     return (
         <div className="flex h-screen w-screen">

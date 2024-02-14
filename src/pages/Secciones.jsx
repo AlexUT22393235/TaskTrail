@@ -8,11 +8,11 @@ function Secciones() {
     <>
       <Header />
 
-      <div className="flex  p-5">
-        <div className="ml-36 mr-36 w-1/2 mt-26">
+      <div className="flex flex-col sm:flex-row p-5">
+        <div className="mx-auto sm:ml-8 sm:mr-4 mt-4 sm:mt-26 w-full sm:w-1/2">
           <CronometroComponente />
         </div>
-        <div className="mr-52 ml-36 w-1/2 mt-26">
+        <div className="mx-auto sm:ml-4 sm:mr-8 mt-4 sm:mt-26 w-full sm:w-1/2">
           <ListaMaterial></ListaMaterial>
         </div>
       </div>

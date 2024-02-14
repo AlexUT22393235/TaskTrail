@@ -61,7 +61,7 @@ const Modal = ({ isOpen, onClose, children }) => {
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 {children}
                             </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex items-center justify-center">
+                            {/* <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex items-center justify-center">
                                 <button
                                     onClick={mostrarAlerta}
                                     type="button"
@@ -69,7 +69,7 @@ const Modal = ({ isOpen, onClose, children }) => {
                                 >
                                     Confirmar
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
