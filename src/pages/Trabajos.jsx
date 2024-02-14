@@ -15,8 +15,7 @@ const Trabajos = () => {
   const [tarifas, setTarifas] = useState([]);
 const [tarifaSeleccionada, setTarifaSeleccionada] = useState('');
 
-console.log("Usuario ID en Trabajos:", trabajoPendiente.usuario_id);
-
+ 
   const openModal = () => {
     setModalOpen(true);
   };
@@ -59,33 +58,41 @@ console.log("Usuario ID en Trabajos:", trabajoPendiente.usuario_id);
 
   const capturarTrabajoPendiente = () => {
     // Almacena el trabajo pendiente en el estado
+    localStorage.setItem('tipoTrabajo', tipoTrabajoSeleccionado);
+  localStorage.setItem('tarifa', tarifaSeleccionada);
+  localStorage.setItem('descripcion', descripcionTrabajo);
+
     
     closeModal(); // Cierra el modal después de capturar los datos
 
-    console.log("Descripción:", descripcionTrabajo, "Tipo trabajo", tipoTrabajoSeleccionado, "Tarifa seleccionada", tarifaSeleccionada)
+    console.log("Datos capturados:");
+    console.log("Tipo de trabajo:", tipoTrabajoSeleccionado);
+    console.log("Tarifa:", tarifaSeleccionada);
+    console.log("Descripción:", descripcionTrabajo);
     navigate("/Secciones")
   };
 
   //A PROBAR HASTA QUE PUEDAN MAPEARSE LAS COSAS SEGÚN EL USUARIO
   useEffect(() => {
-    if (trabajoPendiente && trabajoPendiente.usuario_id) {
-      // Hacer la solicitud a la API para obtener la lista de trabajos del usuario
-      axios.post('http://localhost:3001/trabajos/trabajoPorUsuario', {
-        id_usuario: trabajoPendiente.usuario_id
-      })
-        .then(response => {
-          // Actualizar el estado con los datos recibidos
-          setDescripcion(response.data);
-        })
-        .catch(error => {
-          console.error('Error al obtener información del trabajo', error);
-        });
-    } else {
-      // Puedes agregar un mensaje de consola para indicar que el usuario no está disponible
-      console.log('Usuario no disponible en trabajoPendiente');
+    // Verificar si el usuario_id está disponible en localStorage
+    const usuarioId = localStorage.getItem('usuarioId');
+    if (!usuarioId) {
+      console.log('El usuario_id no está disponible en localStorage');
+      return; // Salir del useEffect si usuario_id no está disponible
     }
-  }, [trabajoPendiente.usuario_id]);
-  
+
+    // Hacer la solicitud a la API para obtener la lista de trabajos del usuario
+    axios.post('http://localhost:3001/trabajos/trabajoPorUsuario', {
+      id_usuario: usuarioId
+    })
+      .then(response => {
+        // Actualizar el estado con los datos recibidos
+        setDescripcion(response.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener información del trabajo', error);
+      });
+  }, []);
   
 
   useEffect(() => {
@@ -165,13 +172,16 @@ console.log("Usuario ID en Trabajos:", trabajoPendiente.usuario_id);
           <Modal isOpen={modalOpen} onClose={closeModal}>
             <h1 className="text-2xl mb-4 text-center font-bold">Añadir Trabajo</h1>
             <p className="text-center p-3 font-semibold">Tipo Trabajo</p>
-            <select className="w-full p-2 rounded-lg border text-center text-black" onChange={handleTipoTrabajoChange}>
-              {tiposTrabajo.map((tipoTrabajo) => (
-                <option key={tipoTrabajo.id} value={tipoTrabajo.id}>{tipoTrabajo.nombre_tipo_trabajo}</option>
-              ))}
-            </select>
-            <p className="text-center p-3 font-semibold">Tarifa</p>
-            <select className="w-full p-2 rounded-lg border text-center text-black" onChange={handleTarifaChange}>
+<select className="w-full p-2 rounded-lg border text-center text-black" onChange={handleTipoTrabajoChange}>
+  <option>Selecciona un tipo de trabajo</option>
+  {tiposTrabajo.map((tipoTrabajo) => (
+    <option key={tipoTrabajo.id} value={tipoTrabajo.id}>{tipoTrabajo.nombre_tipo_trabajo}</option>
+  ))}
+</select>
+<p className="text-center p-3 font-semibold">Tarifa</p>
+<select className="w-full p-2 rounded-lg border text-center text-black" onChange={handleTarifaChange}>
+<option>Selecciona una tarifa</option>
+
   {tarifas.map((tarifa) => (
     <option key={tarifa.id} value={tarifa.id}>{tarifa.nombre_tarifa}</option>
   ))}
