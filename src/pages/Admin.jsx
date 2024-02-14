@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import HeaderAdmin from '../components/HeaderAdmin';
+import React, { useEffect, useState } from 'react'
+import { FaEye } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 import AñadirUsuario from '../components/AñadirUsuario';
-import ActualizarUsuario from '../components/ActualizarUsuario';
+import ActualizarUsuario from '../components/ActualizarUsuario'
+import Swal from 'sweetalert2';
+
+import HeaderAdmin from '../components/HeaderAdmin';
 
 function Admin() {
     const [usuarios, setUsuarios] = useState([]);
@@ -73,40 +75,77 @@ function Admin() {
 
     return (
         <>
-            <HeaderAdmin />
-            <h1 className="text-center text-4xl font-bold">Registro de Usuarios</h1>
+            <HeaderAdmin></HeaderAdmin>            
+            <h1 className="text-4xl font-bold text-center">Registro de Usuarios</h1>
             <div className="p-2">
-                <button className="bg-blue-500 p-2 text-white hover:bg-blue-700" onClick={openModal}>Añadir Usuario</button>
+                <button className="w-[3%] bg-blue-950 p-4 text-white hover:bg-blue-700" onClick={openModal}>+</button>
+                
             </div>
-            <div className="container mx-auto p-3">
-                <table className="w-full bg-white border border-gray-300">
+            {/*tabla de trabajos */}
+            <div class="container mx-auto p-3">
+                <table class="w-full bg-white border border-gray-300">
                     <thead>
                         <tr>
-                            <th className="py-2 px-4 border bg-sky-200">#</th>
-                            <th className="py-2 px-4 border bg-sky-200">Nombre</th>
-                            <th className="py-2 px-4 border bg-sky-200">Rol</th>
-                            <th className="py-2 px-4 border bg-sky-200">Acciones</th>
+                            <th class="py-2 px-4 border bg-sky-200">#</th>
+                            <th class="py-2 px-4 border bg-sky-200">Email</th>
+                            <th class="py-2 px-4 border bg-sky-200">Contraseña</th>
+                            <th class="py-2 px-4 border bg-sky-200">Rol</th>                            
+                            <th class="py-2 px-4 border bg-sky-200">Funciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {usuarios.map((usuario, index) => (
-                            <tr key={usuario.id_usuario}>
-                                <td className="py-2 px-4 border">{index + 1}</td>
-                                <td className="py-2 px-4 border">{usuario.nombre_usuario}</td>
-                                <td className="py-2 px-4 border">{usuario.rol_id}</td>
-                                <td className="py-2 px-4 border">
-                                    <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={() => mostrarAlerta(usuario.id_usuario)}>Eliminar</button>
-                                    <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={() => openModal2(usuario.id_usuario)}>Actualizar</button>
-                                </td>
-                            </tr>
-                        ))}
+                        <tr>
+                            <td class="py-2 px-4 border">1</td>
+                            <td class="py-2 px-4 border"></td>
+                            <td class="py-2 px-4 border"></td>
+                                <td class="py-2 px-4 border"></td>
+                            <td class="py-2 px-4 border">
+                                <button className="p-2 mr-5 text-white bg-red-500 hover:bg-red-400" onClick={mostrarAlerta} >Eliminar</button>
+                                <button className="p-2 text-white bg-green-500 hover:bg-green-400" onClick={openModal2}>Actualizar</button>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
-            <AñadirUsuario isOpen={modalOpen} onClose={closeModal} />
-            <ActualizarUsuario isOpen2={modalOpen2} onClose={closeModal2} usuarioId={usuarioSeleccionadoId} onUsuarioActualizado={onUsuarioActualizado} />
+
+            <div className="flex items-center justify-center h-screen">
+                <div className="App">
+
+                    <AñadirUsuario isOpen={modalOpen} onClose={closeModal}>
+                        <h1 className="mb-4 text-2xl font-bold text-center">Añadir Usuario</h1>
+                        
+                        <p className="p-3 font-semibold text-center">Nombre</p>
+                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
+
+                        <p className="p-3 font-semibold text-center">Contraseña</p>
+                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
+
+                        <p className="p-3 font-semibold text-center">Rol</p>
+                        <select className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center">
+                            <option></option>
+                        </select>
+                    </AñadirUsuario>
+
+                    <ActualizarUsuario isOpen2={modalOpen2} onClose={closeModal2}>
+                        <h1 className="mb-4 text-2xl font-bold text-center">Actualizar Usuario</h1>
+                        
+                        <p className="p-3 font-semibold text-center">Nombre</p>
+                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
+
+                        <p className="p-3 font-semibold text-center">Contraseña</p>
+                        <input className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center" ></input>
+
+                        <p className="p-3 font-semibold text-center">Rol</p>
+                        <select className="w-[100%] p-2 rounded-lg border bg-gray-200 text-center">
+                            <option></option>
+                        </select>
+                    </ActualizarUsuario>
+                </div>
+            </div>
+
         </>
-    );
+    )
 }
 
-export default Admin;
+export default Admin

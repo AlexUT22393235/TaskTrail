@@ -9,9 +9,10 @@ function App() {
   return (
     <>
       <Login></Login>
-      
+      <Trabajos1></Trabajos1>
+>>>>>>>>> Temporary merge branch 2
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
