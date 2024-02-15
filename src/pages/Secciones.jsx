@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../components/Header';
 import CronometroComponente from '../components/CronometroComponente';
 import ListaMaterial from '../components/ListaMaterial';
-import GuardarTrabajo from '../components/GuardarTrabajo';
 
 function Secciones() {
   return (
@@ -17,9 +16,7 @@ function Secciones() {
           <ListaMaterial></ListaMaterial>
         </div>
       </div>
-      <div >
-      <GuardarTrabajo></GuardarTrabajo>
-      </div>
+      
     </>
   );
 }

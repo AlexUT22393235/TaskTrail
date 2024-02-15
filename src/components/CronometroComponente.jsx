@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 function CronometroComponente() {
   const [tiempoTranscurrido, setTiempoTranscurrido] = useState(0);
@@ -43,6 +44,19 @@ function CronometroComponente() {
   const handleConfirmarCambios = () => {
     setEsperandoConfirmacion(false);
     setCronometroActivado(false);
+
+    // Guardar tiempo en el localStorage
+    localStorage.setItem('tiempoTranscurrido', tiempoTranscurrido.toString());
+
+    // Realizar la lógica para enviar a la base de datos
+    handleGuardarTrabajo();
+
+    // Limpiar localStorage después de guardar en la base de datos
+    localStorage.removeItem('tipoTrabajo');
+    localStorage.removeItem('tarifa');
+    localStorage.removeItem('descripcion');
+    localStorage.removeItem('tiempoTranscurrido');
+    
     reiniciarCronometro();
     setTrabajoTerminado(true);
   };
@@ -54,6 +68,41 @@ function CronometroComponente() {
 
   const reiniciarCronometro = () => {
     setTiempoTranscurrido(0);
+  };
+
+  const handleGuardarTrabajo = async () => {
+    try {
+      // Obtener datos del localStorage
+      const usuarioId = localStorage.getItem('usuarioId');
+      const tipoTrabajoId = localStorage.getItem('tipoTrabajo');
+      const tarifaTrabajoId = localStorage.getItem('tarifa');
+      const descripcion = localStorage.getItem('descripcion');
+      const horasTrabajo = localStorage.getItem('tiempoTranscurrido');
+
+      // Enviar datos a la base de datos
+      const response = await axios.post('http://localhost:3001/trabajos/crearTrabajo', {
+        usuario_id: usuarioId,
+        tipo_trabajo_id: tipoTrabajoId,
+        tarifa_trabajo_id: tarifaTrabajoId,
+        descripcion: descripcion,
+        horas_trabajo: horasTrabajo
+      });
+
+      console.log('Trabajo guardado en la base de datos:', response.data);
+
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        title: 'Guardado',
+        text: 'El trabajo ha sido guardado exitosamente en la base de datos',
+        icon: 'success',
+        showConfirmButton: true
+      });
+    } catch (error) {
+      console.error('Error al guardar el trabajo en la base de datos:', error);
+
+      // Mostrar mensaje de error
+      Swal.fire('Error', 'No se pudo guardar el trabajo en la base de datos', 'error');
+    }
   };
 
   return (

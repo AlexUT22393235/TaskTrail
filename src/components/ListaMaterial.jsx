@@ -2,11 +2,42 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import ModalForm from './ModalForm';
-import { IoArrowBack } from "react-icons/io5";
 
-const ListaMaterial = () => {
+  const ListaMaterial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [materialList, setMaterialList] = useState([]);
+  const userId = localStorage.getItem('usuarioId');
+
+  // Hacer algo con el userId, por ejemplo, imprimirlo en la consola
+  console.log('Id del usuario para materiales:', userId);
+
+  // Verificar que userId tiene un valor antes de hacer la solicitud
+if (userId) {
+  // Configurar el objeto de datos para la solicitud
+  const requestData = {
+    id_usuario: userId
+  };
+
+  // Realizar la solicitud POST
+  axios.post('http://localhost:3001/trabajos/ultimoID', requestData)
+    .then(response => {
+      // Obtener el último ID del trabajo de la respuesta
+      const ultimoIdTrabajo = response.data.ultimoID;
+
+      // Hacer algo con el últimoIdTrabajo, por ejemplo, guardarlo en una constante
+      const idCapturado = ultimoIdTrabajo;
+
+      // Puedes utilizar idCapturado en otras partes del código
+      console.log('ID capturado:', idCapturado);
+    })
+    .catch(error => {
+      // Manejar errores en la solicitud
+      console.error('Error en la solicitud:', error);
+    });
+} else {
+  // Manejar el caso donde userId no tiene un valor
+  console.error('El userId no está presente en el localStorage');
+}
 
   useEffect(() => {
     // Obtener datos del localStorage al cargar la página
@@ -42,6 +73,8 @@ const ListaMaterial = () => {
   
       return axios.post('http://localhost:3001/materiales/', materialData);
     });
+
+    
   
     // Usar Promise.all para esperar a que todas las promesas se resuelvan
     Promise.all(sendMaterialPromises)
@@ -75,6 +108,10 @@ const ListaMaterial = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  
+
+
 
   return (
     <div className="flex flex-col mb-32 mt-2">

@@ -79,10 +79,31 @@ const eliminarTrabajo = (req, res) => {
     });
 };
 
+const obtenerUltimoIDTrabajoPorUsuario = (req, res) => {
+    const usuarioId = req.body.id_usuario; // Asegúrate de tener acceso al ID del usuario en el cuerpo
+
+    connection.query(
+        "SELECT MAX(id_trabajo) as ultimoID FROM trabajo WHERE usuario_id = ?",
+        [usuarioId],
+        (error, results) => {
+            if (error) {
+                console.error("Error al obtener el último ID de trabajo por usuario", error);
+                res.status(500).json({
+                    error: "Error al obtener el último ID de trabajo por usuario",
+                });
+            } else {
+                const ultimoID = results[0].ultimoID;
+                res.json({ ultimoID });
+            }
+        }
+    );
+};
+
 
 module.exports = {
     obtenerTrabajo,
     obtenerTrabajoPorUsuario,
     crearTrabajo,
-    eliminarTrabajo
+    eliminarTrabajo,
+    obtenerUltimoIDTrabajoPorUsuario
 };
