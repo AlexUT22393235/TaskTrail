@@ -28,17 +28,17 @@ const obtenerUsuarioPorId = (req, res) => {
 
 
 const crearUsuario = (req, res) => {
-  const { nombre, contrasenia, rol} = req.body;
+  const { nombre_usuario, contrasenia, rol_id} = req.body;
 
   // Verificar que se proporcionen nombre, correo y contraseña
-  if (!nombre || !contrasenia || !rol) {
+  if (!nombre_usuario || !contrasenia || !rol_id) {
     return res.status(400).json({ error: 'Nombre, correo o contraseña faltante' });
   }
 
   // Almacenar el nombre de usuario, correo y contraseña en la base de datos sin encriptación
   connection.query(
     'INSERT INTO usuario (nombre_usuario, contrasenia, rol_id) VALUES (?,?,?)',
-    [nombre,contrasenia, rol],
+    [nombre_usuario,contrasenia, rol_id],
     (error, results) => {
       if (error) {
         console.error('Error al agregar usuario', error);
@@ -53,20 +53,24 @@ const crearUsuario = (req, res) => {
 
 const actualizarUsuarioPorId = (req, res) => {
   const id = req.params.id_usuario;
-  const { nombre, contrasenia, rol } = req.body;
+  // Asegúrate de que los nombres de los campos en req.body coincidan con tu esquema de base de datos.
+  const { nombre_usuario, contrasenia, rol_id } = req.body; 
   connection.query(
-    "UPDATE usuario SET nombre_usuario=?, contrasenia=?, rol_id=? WHERE id_usuario=?",
-    [nombre,contrasenia, rol, id],
+    "UPDATE usuario SET nombre_usuario = ?, contrasenia = ?, rol_id = ? WHERE id_usuario = ?",
+    [nombre_usuario, contrasenia, rol_id, id],
     (error, results) => {
       if (error) {
         console.error("Error al actualizar usuario", error);
-        res.status(500).json({error: "Error al actualizar usuario"});
+        res.status(500).json({ error: "Error al actualizar usuario" });
       } else {
-        res.json({message: "Usuario actualizado correctamente"});
+        res.json({ message: "Usuario actualizado correctamente" });
       }
     }
   );
 };
+
+
+
 
 const eliminarUsuarioPorId = (req, res) => {
   const id = req.params.id_usuario;
@@ -79,10 +83,45 @@ const eliminarUsuarioPorId = (req, res) => {
   });
 };
 
+
+
+const login = (req, res) => {
+  const { nombre, contrasenia } = req.body;
+  const sql = 'SELECT id_usuario, rol_id FROM usuario WHERE nombre_usuario = ? AND contrasenia = ?';
+
+  connection.query(sql, [nombre, contrasenia], (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.json({ error: 'Error en la consulta' });
+    }
+
+    if (results.length === 1) {
+      const idUsuario = results[0].id_usuario;
+      const rolId = results[0].rol_id;
+
+      if (rolId === 1) {
+        return res.json({ mensaje: 'Autenticación exitosa como administrador', idUsuario, rol: 'admin' });
+      } else if (rolId === 2) {
+        return res.json({ mensaje: 'Autenticación exitosa como mecanico', idUsuario, rol: 'mecanico' });
+      } else {
+        return res.status(401).json({ error: 'Rol no reconocido' });
+      }
+    } else {
+      return res.status(401).json({ error: 'Credenciales incorrectas' });
+    }
+  });
+};
+
+
+
+
+
+
 module.exports = {
   obtenerUsuarios,
   obtenerUsuarioPorId,
   crearUsuario,
   actualizarUsuarioPorId,
-  eliminarUsuarioPorId
+  eliminarUsuarioPorId,
+  login,
 };

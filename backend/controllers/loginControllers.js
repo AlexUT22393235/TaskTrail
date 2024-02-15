@@ -21,7 +21,7 @@ const login = (req, res) => {
     const usuario = results[0] || {};
 
     
-  
+    console.log('Usuario:', usuario);
       res.json({
         message: 'Inicio de sesión exitoso',
         usuario: {
@@ -29,7 +29,8 @@ const login = (req, res) => {
           nombre_usuario: usuario.nombre_usuario,
           rol_id: usuario.rol_id,
         },
-        rol: usuario.rol_id
+        rol: usuario.rol_id,
+        usuarioId: usuario.id_usuario
       });
     });
   };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import HeaderAdmin from '../components/HeaderAdmin';
+import Header from '../components/HeaderAdmin';
 import AñadirUsuario from '../components/AñadirUsuario';
 import ActualizarUsuario from '../components/ActualizarUsuario';
 
@@ -73,40 +73,58 @@ function Admin() {
 
     return (
         <>
-            <HeaderAdmin />
-            <h1 className="text-center text-4xl font-bold">Registro de Usuarios</h1>
-            <div className="p-2">
-                <button className="bg-blue-500 p-2 text-white hover:bg-blue-700" onClick={openModal}>Añadir Usuario</button>
-            </div>
-            <div className="container mx-auto p-3">
-                <table className="w-full bg-white border border-gray-300">
-                    <thead>
-                        <tr>
-                            <th className="py-2 px-4 border bg-sky-200">#</th>
-                            <th className="py-2 px-4 border bg-sky-200">Nombre</th>
-                            <th className="py-2 px-4 border bg-sky-200">Rol</th>
-                            <th className="py-2 px-4 border bg-sky-200">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {usuarios.map((usuario, index) => (
-                            <tr key={usuario.id_usuario}>
-                                <td className="py-2 px-4 border">{index + 1}</td>
-                                <td className="py-2 px-4 border">{usuario.nombre_usuario}</td>
-                                <td className="py-2 px-4 border">{usuario.rol_id}</td>
-                                <td className="py-2 px-4 border">
-                                    <button className="bg-red-500 p-2 text-white hover:bg-red-400 mr-5" onClick={() => mostrarAlerta(usuario.id_usuario)}>Eliminar</button>
-                                    <button className="bg-green-500 p-2 text-white hover:bg-green-400" onClick={() => openModal2(usuario.id_usuario)}>Actualizar</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            <AñadirUsuario isOpen={modalOpen} onClose={closeModal} />
-            <ActualizarUsuario isOpen2={modalOpen2} onClose={closeModal2} usuarioId={usuarioSeleccionadoId} onUsuarioActualizado={onUsuarioActualizado} />
+          <Header />
+          <h1 className="text-center text-4xl font-bold mt-4">Registro de usuarios</h1>
+          <div className={`p-2 ${modalOpen ? 'ml-0' : 'ml-80'}`}>
+      <button
+        className={`px-4 py-2 text-white bg-blue-700 rounded-md shadow-md hover:bg-blue-800 ${modalOpen ? 'mx-auto' : ''}`}
+        onClick={openModal}
+      >
+        Añadir Usuario
+      </button>
+    </div>
+          <div className="container mx-auto p-3">
+            <table className="w-full p-4 mx-auto overflow-hidden rounded-lg shadow-lg max-w-7xl">
+              <thead>
+                <tr className="text-white bg-blue-500">
+                  <th className="px-4 py-2 text-lg font-semibold">#</th>
+                  <th className="px-4 py-2 text-lg font-semibold">Nombre</th>
+                  <th className="px-4 py-2 text-lg font-semibold">Rol</th>
+                  <th className="px-4 py-2 text-lg font-semibold">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuarios.map((usuario, index) => (
+                  <tr key={usuario.id_usuario} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+                    <td className="px-4 py-2 border">{index + 1}</td>
+                    <td className="px-4 py-2 border">{usuario.nombre_usuario}</td>
+                    <td className="px-4 py-2 border">{usuario.rol_id}</td>
+                    <td className="px-4 py-2 border">
+                      <div className="flex flex-col sm:flex-row items-center justify-center sm:gap-4">
+                        <button
+                          className="px-4 py-2 text-white bg-red-500 rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mb-2 sm:mb-0"
+                          onClick={() => mostrarAlerta(usuario.id_usuario)}
+                        >
+                          Eliminar
+                        </button>
+                        <button
+                          className="px-4 py-2 text-white bg-green-500 rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                          onClick={() => openModal2(usuario.id_usuario)}
+                        >
+                          Actualizar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <AñadirUsuario isOpen={modalOpen} onClose={closeModal} />
+          <ActualizarUsuario isOpen2={modalOpen2} onClose={closeModal2} usuarioId={usuarioSeleccionadoId} onUsuarioActualizado={onUsuarioActualizado} />
         </>
-    );
+      );
+      
 }
 
 export default Admin;

@@ -9,7 +9,10 @@ const loginRouter = require("./router/loginRouter");
 const emailRouter = require("./router/emailRouter");
 const materialTrabajoRouter = require("./router/materialTrabajoRouter");
 const trabajoRouter = require("./router/trabajoRouter");
-
+const tipoTrabajoRouter = require("./router/tipoTrabajoRouter");
+const cronometroControllers = require("./router/cronometroRouter");
+const tarifaRouter = require("./router/tarifa_Router")
+const materialPorTrabajoRouter = require("./router/materialPorTrabajoRouter");
 /* app va a tener todos los atributos y metodos de 
 express */
 
@@ -24,9 +27,11 @@ app.use("/login", loginRouter);
 app.use('/email', emailRouter);
 
 app.use("/codigo_verificacion", codigo_verificacionRouter);
-app.use('/materialTrabajo', materialTrabajoRouter);
-// Usa el enrutador de trabajo
-app.use("/trabajo", trabajoRouter);
+app.use("/cronometro", cronometroControllers)
+app.use("/tarifa", tarifaRouter)
+app.use("/materialPorTrabajo", materialPorTrabajoRouter)
+
+
 
 app.get("/", (req, res) => {
   res.send(`<h1>Hola perro</h1>`);
