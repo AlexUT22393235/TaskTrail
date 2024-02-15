@@ -5,29 +5,17 @@ function CronometroComponente() {
   const [tiempoTranscurrido, setTiempoTranscurrido] = useState(0);
   const [cronometroActivado, setCronometroActivado] = useState(false);
   const [esperandoConfirmacion, setEsperandoConfirmacion] = useState(false);
+  const [trabajoTerminado, setTrabajoTerminado] = useState(false);
 
   useEffect(() => {
     let interval;
     if (cronometroActivado) {
       interval = setInterval(() => {
-        setTiempoTranscurrido(prevTiempo => {
-          // Guardar el tiempo en localStorage
-          localStorage.setItem('tiempoTranscurrido', prevTiempo + 1);
-          return prevTiempo + 1;
-        });
+        setTiempoTranscurrido(prevTiempo => prevTiempo + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [cronometroActivado]);
-
-  useEffect(() => {
-    // Cargar el tiempo desde localStorage al montar el componente
-    const tiempoGuardado = localStorage.getItem('tiempoTranscurrido');
-    if (tiempoGuardado) {
-      setTiempoTranscurrido(parseInt(tiempoGuardado));
-    }
-    console.log('Tiempo guardado en localStorage:', tiempoGuardado);
-  }, []);
 
   const formatearTiempo = (segundos) => {
     const horas = Math.floor(segundos / 3600);
@@ -40,6 +28,7 @@ function CronometroComponente() {
 
   const handleIniciar = () => {
     setCronometroActivado(true);
+    setTrabajoTerminado(false);
   };
 
   const handleParar = () => {
@@ -54,11 +43,17 @@ function CronometroComponente() {
   const handleConfirmarCambios = () => {
     setEsperandoConfirmacion(false);
     setCronometroActivado(false);
+    reiniciarCronometro();
+    setTrabajoTerminado(true);
   };
 
   const handleCancelarCambios = () => {
     setEsperandoConfirmacion(false);
     setCronometroActivado(true);
+  };
+
+  const reiniciarCronometro = () => {
+    setTiempoTranscurrido(0);
   };
 
   return (
@@ -87,12 +82,12 @@ function CronometroComponente() {
         </div>
       )}
   
-      <p className="text-center p-6 sm:p-10 text-4xl sm:text-9xl mt-4 sm:mt-7 mb-8 sm:mb-32">{formatearTiempo(tiempoTranscurrido)}</p>
+      <p className="text-center p-6 sm:p-10 text-4xl sm:text-9xl mt-2 sm:mt-2 mb-2 sm:mb-26">{formatearTiempo(tiempoTranscurrido)}</p>
       <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 space-x-0 sm:space-x-24 mt-4 sm:mt-32">
         <button
           className="bg-blue-900 text-white p-3 hover:bg-blue-700 rounded-lg mb-4 sm:mb-0 w-full sm:w-48 h-16"
           onClick={handleIniciar}
-          disabled={cronometroActivado}
+          disabled={cronometroActivado || trabajoTerminado}
         >
           Iniciar Trabajo
         </button>

@@ -39,12 +39,14 @@ const GuardarTrabajo = () => {
   };
 
   return (
-    <button
-      className="bg-blue-500 text-white p-3 hover:bg-blue-700 rounded-lg mb-4 w-full sm:w-48 h-16"
-      onClick={handleGuardarTrabajo}
-    >
-      Guardar Trabajo
-    </button>
+    <div className="flex justify-center items-center mt-4">
+      <button
+        className="bg-blue-500 text-white p-3 hover:bg-blue-700 rounded-lg w-full sm:w-48 h-16"
+        onClick={handleGuardarTrabajo}
+      >
+        Guardar Trabajo
+      </button>
+    </div>
   );
 };
 

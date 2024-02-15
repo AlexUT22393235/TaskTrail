@@ -17,8 +17,9 @@ function Secciones() {
           <ListaMaterial></ListaMaterial>
         </div>
       </div>
+      <div >
       <GuardarTrabajo></GuardarTrabajo>
-
+      </div>
     </>
   );
 }
