@@ -91,17 +91,17 @@ function CronometroComponente() {
       console.log('Trabajo guardado en la base de datos:', response.data);
 
       // Mostrar mensaje de éxito
-      Swal.fire({
-        title: 'Guardado',
-        text: 'El trabajo ha sido guardado exitosamente en la base de datos',
-        icon: 'success',
-        showConfirmButton: true
-      });
+      // Swal.fire({
+      //   title: 'Guardado',
+      //   text: 'El trabajo ha sido guardado exitosamente en la base de datos',
+      //   icon: 'success',
+      //   showConfirmButton: true
+      // });
     } catch (error) {
       console.error('Error al guardar el trabajo en la base de datos:', error);
 
       // Mostrar mensaje de error
-      Swal.fire('Error', 'No se pudo guardar el trabajo en la base de datos', 'error');
+      // Swal.fire('Error', 'No se pudo guardar el trabajo en la base de datos', 'error');
     }
   };
 

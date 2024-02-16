@@ -9,16 +9,13 @@ import CodigoVerificacion from "../pages/CodigoVerificacion";
 import ComponentePrueba from "../pages/ComponentePrueba";
 import ComponentePruebaEmail from "../pages/ComponentePruebaEmail";
 import AdminGeneral from '../pages/AdminGeneral'
-import { TrabajoPendienteProvider } from '../context/TrabajoPendienteContexto';
 
 
 export const rutas = createBrowserRouter([
     {
         
         path: "/",
-        element:(<TrabajoPendienteProvider>
-            <Login/>
-        </TrabajoPendienteProvider>) 
+        element: <Login/>
     },
     {
         path: "/Admin",
@@ -27,11 +24,8 @@ export const rutas = createBrowserRouter([
     {
         
         path: '/Trabajos',
-        element: (
-            <TrabajoPendienteProvider>
-                <Trabajos />
-            </TrabajoPendienteProvider>
-        )
+        element:<Trabajos /> 
+            
     },
     {
         path: "/Detalles",
@@ -39,9 +33,9 @@ export const rutas = createBrowserRouter([
     },
     {
         path: "/Secciones",
-        element: (<TrabajoPendienteProvider>
+        element: 
             <Secciones />
-        </TrabajoPendienteProvider>)
+       
     },
     {
         path: "/Codigo",

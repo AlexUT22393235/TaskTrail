@@ -2,95 +2,59 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import ModalForm from './ModalForm';
+import { useNavigate } from 'react-router-dom';
 
-  const ListaMaterial = () => {
+const ListaMaterial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [materialList, setMaterialList] = useState([]);
+  const [esperandoConfirmacion, setEsperandoConfirmacion] = useState(false);
+  const navigate = useNavigate();
   const userId = localStorage.getItem('usuarioId');
 
-  // Hacer algo con el userId, por ejemplo, imprimirlo en la consola
-  console.log('Id del usuario para materiales:', userId);
-
-  // Verificar que userId tiene un valor antes de hacer la solicitud
-if (userId) {
-  // Configurar el objeto de datos para la solicitud
-  const requestData = {
-    id_usuario: userId
-  };
-
-  // Realizar la solicitud POST
-  axios.post('http://localhost:3001/trabajos/ultimoID', requestData)
-    .then(response => {
-      // Obtener el último ID del trabajo de la respuesta
-      const ultimoIdTrabajo = response.data.ultimoID;
-
-      // Hacer algo con el últimoIdTrabajo, por ejemplo, guardarlo en una constante
-      const idCapturado = ultimoIdTrabajo;
-
-      // Puedes utilizar idCapturado en otras partes del código
-      console.log('ID capturado:', idCapturado);
-    })
-    .catch(error => {
-      // Manejar errores en la solicitud
-      console.error('Error en la solicitud:', error);
-    });
-} else {
-  // Manejar el caso donde userId no tiene un valor
-  console.error('El userId no está presente en el localStorage');
-}
-
   useEffect(() => {
-    // Obtener datos del localStorage al cargar la página
     const savedMaterials = localStorage.getItem('materialList');
 
-    //console.log(savedMaterials)
     if (savedMaterials) {
       setMaterialList(JSON.parse(savedMaterials));
     }
   }, []);
 
   const handleAddMaterial = (material) => {
-    // Agregar nuevo material a la lista
     setMaterialList([...materialList, material]);
-
-    // Guardar lista actualizada en localStorage
     localStorage.setItem('materialList', JSON.stringify([...materialList, material]));
   };
 
   const handleFinishRegistration = () => {
-    // Se asume que tu backend espera recibir un solo objeto material por petición
-    // y que el endpoint '/materiales' está configurado para manejar esto.
-  console.log(materialList)
-    // Crear una promesa para cada material y enviarlo individualmente
+    setEsperandoConfirmacion(true);
+  };
+
+  const handleConfirmarCambios = () => {
     const sendMaterialPromises = materialList.map(material => {
       const materialData = {
         nombre_material: material.name,
         cantidad: material.quantity,
         precio_material: material.price
       };
-
-      console.log(materialData)
   
       return axios.post('http://localhost:3001/materiales/', materialData);
     });
 
-    
-  
-    // Usar Promise.all para esperar a que todas las promesas se resuelvan
     Promise.all(sendMaterialPromises)
       .then(() => {
-        // Si todas las promesas se resuelven exitosamente, limpiar localStorage y actualizar el estado
-        localStorage.removeItem('materialList'); // Limpiar localStorage después de enviar los datos
-        setMaterialList([]); // Limpiar el estado de materialList
+        localStorage.removeItem('materialList');
+        setMaterialList([]);
+        setEsperandoConfirmacion(false);
         Swal.fire({
           icon: 'success',
           title: 'Registro completado',
-          text: 'Todos los materiales se han enviado correctamente a la base de datos',
+          text: 'Todos los datos se han enviado correctamente a la base de datos',
+        }).then(() => {
+          navigate('/Trabajos');
         });
       })
       .catch(error => {
-        // Manejar caso de error en alguna de las promesas
         console.error('Error al enviar los materiales:', error);
+        setEsperandoConfirmacion(false);
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -98,8 +62,10 @@ if (userId) {
         });
       });
   };
-  
-  
+
+  const handleCancelarCambios = () => {
+    setEsperandoConfirmacion(false);
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -108,10 +74,6 @@ if (userId) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  
-
-
 
   return (
     <div className="flex flex-col mb-32 mt-2">
@@ -151,6 +113,27 @@ if (userId) {
         </table>
       </div>
       <ModalForm isOpen={isModalOpen} closeModal={closeModal} handleAddMaterial={handleAddMaterial} />
+      {esperandoConfirmacion && (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6">
+            <p className="text-center mb-4">¿Desea confirmar cambios?</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                className="bg-blue-400 text-white px-4 py-2 rounded"
+                onClick={handleConfirmarCambios}
+              >
+                Confirmar
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                onClick={handleCancelarCambios}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
