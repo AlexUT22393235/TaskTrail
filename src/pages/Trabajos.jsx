@@ -142,10 +142,11 @@ const Trabajos = () => {
       <td className="py-2 px-4 border">{trabajo.descripcion}</td>
       <td className="py-2 px-4 border">{/* Agrega aquí el precio del trabajo */}</td>
       <td className="py-2 px-4 border flex justify-center items-center">
-        <Link to={`/Detalles/${index}`}>
-          <FaEye size="2rem" />
-        </Link>
-      </td>
+            {/* Utiliza Link para enlazar a la página de Detalles con el ID específico */}
+            <Link to={`/Detalles/${trabajo.id_trabajo}`}>
+              <FaEye size="2rem" />
+            </Link>
+          </td>
     </tr>
   ))}
 </tbody>

@@ -59,6 +59,11 @@ export const rutas = createBrowserRouter([
     {
         path: "/AdminGeneral",
         element: <AdminGeneral />
-    }
+    },
+    {
+        // Configura la ruta con el parámetro :id
+        path: '/Detalles/:id',
+        element: <Detalles />
+    },
 
 ])
