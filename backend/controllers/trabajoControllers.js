@@ -14,6 +14,26 @@ const obtenerTrabajo = (req, res) => {
 
 };
 
+const obtenerTrabajoPorId = (req, res) => {
+    console.log('Entrando en el controlador obtenerTrabajoPorId');
+    
+    const id = req.params.id_trabajo;
+    console.log('ID del trabajo:', id);
+  
+    connection.query("SELECT * FROM trabajo WHERE id_trabajo =?", [id], (error, results) => {
+      if (error) {
+        console.error('Error al ejecutar la consulta:', error);
+        res.status(500).json({error: "Ocurrió un error al obtener el trabajo"});
+      } else if(results.length === 0){
+        console.log('Trabajo no encontrado');
+        res.status(404).json({error:"El trabajo no fue encontrado"});
+      } else {
+        console.log('Trabajo encontrado:', results[0]);
+        res.json(results[0]);
+      }
+    });
+  };
+
 const obtenerTrabajoPorUsuario = (req, res) => {
     const usuarioId = req.body.id_usuario; // Asegúrate de tener acceso al ID del usuario en el cuerpo
     connection.query("SELECT * FROM trabajo WHERE usuario_id = ?", [usuarioId], (error, results) => {
@@ -105,5 +125,6 @@ module.exports = {
     obtenerTrabajoPorUsuario,
     crearTrabajo,
     eliminarTrabajo,
-    obtenerUltimoIDTrabajoPorUsuario
+    obtenerUltimoIDTrabajoPorUsuario,
+    obtenerTrabajoPorId
 };

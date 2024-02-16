@@ -8,6 +8,8 @@ router.use(cors());
 router.use(express.json());
 
 router.get('/', trabajoControllers.obtenerTrabajo);
+router.get("/:id_trabajo", trabajoControllers.obtenerTrabajoPorId);
+
 router.post('/trabajoPorUsuario', trabajoControllers.obtenerTrabajoPorUsuario);
 
 router.post('/crearTrabajo', trabajoControllers.crearTrabajo);
