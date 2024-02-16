@@ -9,7 +9,9 @@ const router = express.Router();
 router.use(cors());
 router.use(express.json());
 
-router.get('/', materialPorTrabajoControllers.obtenerMaterialPorTrabajo)
+router.get('/', materialPorTrabajoControllers.obtenerMaterialPorTrabajo);
+//
+router.post('/ObtenerMaterialPorTrabajoPorId', materialPorTrabajoControllers.obtenerMaterialPorTrabajoPorId);
 router.post('/agregarMaterialPorTrabajo', materialPorTrabajoControllers.agregarMaterialPorTrabajo);
 
 module.exports = router;

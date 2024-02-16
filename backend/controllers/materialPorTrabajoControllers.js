@@ -14,6 +14,23 @@ const obtenerMaterialPorTrabajo = (req, res) => {
 
 };
 
+const obtenerMaterialPorTrabajoPorId = (req, res) => {
+    const trabajoId = req.body.trabajo_id;
+
+    connection.query("SELECT * FROM material_por_trabajo WHERE trabajo_id = ?", [trabajoId], (error, results) => {
+        if (error) {
+            console.error("Error al obtener material por trabajo", error);
+            res.status(500).json({
+                error: "Error al obtener material por trabajo",
+            });
+        } else {
+            res.json(results);
+        }
+    });
+};
+
+
+
 const agregarMaterialPorTrabajo = (req, res) => {
     const { material_usado_id, trabajo_id } = req.body;
 
@@ -36,5 +53,6 @@ const agregarMaterialPorTrabajo = (req, res) => {
 
 module.exports = {
     obtenerMaterialPorTrabajo,
-    agregarMaterialPorTrabajo
+    agregarMaterialPorTrabajo,
+    obtenerMaterialPorTrabajoPorId
 };
