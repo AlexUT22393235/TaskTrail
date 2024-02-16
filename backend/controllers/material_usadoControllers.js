@@ -41,15 +41,18 @@ const crearMaterialUsado = (req, res) => {
         [nombre_material, cantidad, precio_material],
         (error, results) => {
             if (error) {
-                console.error('Error al agregar el material usado', error);
-                return res.status(500).json({ error: 'Error al agregar el material usado' });
+                console.error('Error al agregar el material usado:', error.message);
+                return res.status(500).json({ error: 'Error al agregar el material usado en la base de datos' });
             }
 
-            // Devolver el ID del material usado recién creado
-            res.json({ id: results.insertId, message: 'Material usado agregado correctamente' });
+            const materialId = results.insertId;
+            
+            console.log('Material usado agregado correctamente con ID:', materialId);
+            res.json({ id: materialId, message: 'Material usado agregado correctamente' });
         }
     );
 };
+
 
 
 // Actualizar un material usado por ID

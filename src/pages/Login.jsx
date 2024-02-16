@@ -11,24 +11,24 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
+    
         if (!nombre || !contrasenia) {
             setError('Por favor, complete todos los campos.');
             return;
         }
-
+    
         const caracteresProhibidos = /<|>|\/|\\/; 
         if (caracteresProhibidos.test(nombre) || caracteresProhibidos.test(contrasenia)) {
             setError('Se han detectado caracteres no permitidos en los campos. Por favor, inténtelo de nuevo.');
             return;
         }
-
+    
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 nombre_usuario: nombre,
                 contrasenia: contrasenia,
             });
-
+    
             if (response.data.error) {
                 setError('Credenciales inválidas, por favor inténtelo de nuevo.');
                 console.error('Error en la consulta:', response.data.error);
@@ -36,7 +36,15 @@ function Login() {
                 const usuarioId = response.data.usuarioId;
                 localStorage.setItem('usuarioId', usuarioId);
                 console.log('ID de usuario capturado:', usuarioId);
-                
+    
+                // Guardar el nombre de usuario en localStorage
+                localStorage.setItem('usuarioNombre', response.data.usuario.nombre_usuario);
+                console.log('Nombre de usuario guardado en localStorage:', localStorage.getItem('usuarioNombre'));
+    
+                // Guardar el rol de usuario en localStorage
+                localStorage.setItem('usuarioRol', response.data.rol);
+                console.log('Rol de usuario guardado en localStorage:', localStorage.getItem('usuarioRol'));
+    
                 if (response.data.rol === 1) {
                     navigate('/AdminGeneral');
                 } else {
@@ -48,6 +56,7 @@ function Login() {
             console.error('Error en la solicitud:', error.message);
         }
     };
+    
 
     return (
         <div className="flex h-screen w-screen">

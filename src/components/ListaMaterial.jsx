@@ -7,42 +7,76 @@ import { useNavigate } from 'react-router-dom';
 const ListaMaterial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [materialList, setMaterialList] = useState([]);
+  const [materialIds, setMaterialIds] = useState([]);
+  const [ultimoIdTrabajo, setUltimoIdTrabajo] = useState(null);
   const [esperandoConfirmacion, setEsperandoConfirmacion] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem('usuarioId');
 
   useEffect(() => {
     const savedMaterials = localStorage.getItem('materialList');
+    const savedMaterialIds = localStorage.getItem('materialIds');
 
     if (savedMaterials) {
       setMaterialList(JSON.parse(savedMaterials));
     }
+
+    if (savedMaterialIds) {
+      setMaterialIds(JSON.parse(savedMaterialIds));
+    }
+
+    obtenerUltimoIDTrabajo();
   }, []);
+
+  const obtenerUltimoIDTrabajo = () => {
+    axios.post('http://localhost:3001/trabajos/ultimoID', { id_usuario: userId })
+      .then(response => {
+        setUltimoIdTrabajo(response.data.ultimoID);
+      })
+      .catch(error => {
+        console.error('Error al obtener el último ID de trabajo:', error);
+      });
+  };
 
   const handleAddMaterial = (material) => {
     setMaterialList([...materialList, material]);
+
+    const materialData = {
+      nombre_material: material.name,
+      cantidad: material.quantity,
+      precio_material: material.price
+    };
+
+    axios.post('http://localhost:3001/materiales/', materialData)
+      .then(response => {
+        const materialId = response.data.id;
+        console.log('Material registrado con ID:', materialId);
+        setMaterialIds([...materialIds, materialId]);
+        localStorage.setItem('materialIds', JSON.stringify([...materialIds, materialId]));
+      })
+      .catch(error => {
+        console.error('Error al agregar el material:', error);
+      });
+
     localStorage.setItem('materialList', JSON.stringify([...materialList, material]));
   };
 
   const handleFinishRegistration = () => {
-    setEsperandoConfirmacion(true);
-  };
-
-  const handleConfirmarCambios = () => {
-    const sendMaterialPromises = materialList.map(material => {
-      const materialData = {
-        nombre_material: material.name,
-        cantidad: material.quantity,
-        precio_material: material.price
+    const sendMaterialPorTrabajoPromises = materialIds.map(materialId => {
+      const materialPorTrabajoData = {
+        material_usado_id: materialId,
+        trabajo_id: ultimoIdTrabajo
       };
   
-      return axios.post('http://localhost:3001/materiales/', materialData);
+      return axios.post('http://localhost:3001/materialPorTrabajo/agregarMaterialPorTrabajo', materialPorTrabajoData);
     });
 
-    Promise.all(sendMaterialPromises)
+    Promise.all(sendMaterialPorTrabajoPromises)
       .then(() => {
         localStorage.removeItem('materialList');
+        localStorage.removeItem('materialIds');
         setMaterialList([]);
+        setMaterialIds([]);
         setEsperandoConfirmacion(false);
         Swal.fire({
           icon: 'success',
@@ -53,7 +87,7 @@ const ListaMaterial = () => {
         });
       })
       .catch(error => {
-        console.error('Error al enviar los materiales:', error);
+        console.error('Error al enviar los materiales por trabajo:', error);
         setEsperandoConfirmacion(false);
         Swal.fire({
           icon: 'error',
@@ -120,7 +154,7 @@ const ListaMaterial = () => {
             <div className="flex justify-center space-x-4">
               <button
                 className="bg-blue-400 text-white px-4 py-2 rounded"
-                onClick={handleConfirmarCambios}
+                onClick={handleFinishRegistration}
               >
                 Confirmar
               </button>
