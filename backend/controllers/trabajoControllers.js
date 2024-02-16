@@ -103,7 +103,7 @@ const obtenerUltimoIDTrabajoPorUsuario = (req, res) => {
     const usuarioId = req.body.id_usuario; // Asegúrate de tener acceso al ID del usuario en el cuerpo
 
     connection.query(
-        "SELECT MAX(id_trabajo) as ultimoID FROM trabajo WHERE usuario_id = ?",
+        "SELECT id_trabajo FROM trabajo WHERE usuario_id = ? ORDER BY id_trabajo DESC LIMIT 1",
         [usuarioId],
         (error, results) => {
             if (error) {
@@ -112,7 +112,7 @@ const obtenerUltimoIDTrabajoPorUsuario = (req, res) => {
                     error: "Error al obtener el último ID de trabajo por usuario",
                 });
             } else {
-                const ultimoID = results[0].ultimoID;
+                const ultimoID = results[0].id_trabajo;
                 res.json({ ultimoID });
             }
         }

@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 
 const Detalles = () => {
   const [trabajo, setTrabajo] = useState(null);
-  const [materialesPorTrabajo, setMaterialesPorTrabajo] = useState([]);
+  const [materialesUsados, setMaterialesUsados] = useState(null);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -15,10 +16,13 @@ const Detalles = () => {
         const response = await axios.get(`http://localhost:3001/trabajos/${id}`);
         setTrabajo(response.data);
 
-        const materialesResponse = await axios.post(`http://localhost:3001/materialPorTrabajo/ObtenerMaterialPorTrabajoPorId`, {
-          trabajo_id: id
-        });
-        setMaterialesPorTrabajo(materialesResponse.data);
+        const responseMateriales = await axios.post(`http://localhost:3001/materialPorTrabajo/ObtenerMaterialPorTrabajoPorId`, {
+  trabajo_id: id
+});
+setMaterialesUsados(responseMateriales.data);
+console.log("Info materiales", responseMateriales.data);
+
+       
       } catch (error) {
         console.error('Error al obtener detalles del trabajo', error);
       }
@@ -69,13 +73,7 @@ const Detalles = () => {
       <p>Total por horas {calcularPrecio()}</p>
 
       <h3>Materiales Por Trabajo</h3>
-      <ul>
-        {materialesPorTrabajo.map(material => (
-          <li key={material.id_material_por_trabajo}>
-            Material ID: {material.id_material_por_trabajo}, Material Usado ID: {material.material_usado_id}
-          </li>
-        ))}
-      </ul>
+     
     </div>
   );
 };

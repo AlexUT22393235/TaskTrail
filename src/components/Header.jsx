@@ -32,7 +32,7 @@ function Header() {
                     {nombreUsuario && (
                         <>
                             <FaCircleUser size="3rem" className="mr-2" />
-                            <p className="text-right font-semibold text-2xl p-3">Bienvenido, {nombreUsuario} :) 🤘🤘🤘</p>
+                            <p className="text-right font-semibold text-2xl p-3">Bienvenido {nombreUsuario} </p>
                         </>
                     )}
                 </div>

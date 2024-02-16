@@ -62,11 +62,14 @@ const ListaMaterial = () => {
   };
 
   const handleFinishRegistration = () => {
+    const trabajoIdParaEnviar = ultimoIdTrabajo + 1;
+
     const sendMaterialPorTrabajoPromises = materialIds.map(materialId => {
       const materialPorTrabajoData = {
         material_usado_id: materialId,
-        trabajo_id: ultimoIdTrabajo
+        trabajo_id: trabajoIdParaEnviar // Utiliza el ID sumado
       };
+  
   
       return axios.post('http://localhost:3001/materialPorTrabajo/agregarMaterialPorTrabajo', materialPorTrabajoData);
     });
