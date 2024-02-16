@@ -88,5 +88,6 @@ module.exports = {
   obtenerUsuarioPorId,
   crearUsuario,
   actualizarUsuarioPorId,
-  eliminarUsuarioPorId
+  eliminarUsuarioPorId,
+  login,
 };

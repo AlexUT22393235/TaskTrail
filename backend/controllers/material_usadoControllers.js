@@ -88,6 +88,4 @@ module.exports = {
     crearMaterialUsado,
     actualizarMaterialUsadoPorId,
     eliminarMaterialUsadoPorId,
-
 };
-

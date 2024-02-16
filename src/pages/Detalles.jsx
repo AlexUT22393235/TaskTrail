@@ -1,53 +1,41 @@
-import React from 'react';
-import { IoArrowBack } from "react-icons/io5";
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-function Detalles() {
-    return (
-        <>
-        <Header />
-        <div className="container mx-auto p-8">
-            
-            
-            
-            
-            <div className="text-center">
-                <h1 className="font-semibold text-4xl mb-4">Detalles</h1>
-            </div>
+const Detalles = () => {
+  const [trabajo, setTrabajo] = useState(null);
+  const { id } = useParams();
 
-            
+  useEffect(() => {
+    const fetchTrabajoDetails = async () => {
+      try {
+        console.log("ID de trabajo:", id);
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p className="font-semibold text-2xl">Tipo de trabajo: Reparación</p>
+        const response = await axios.get(`http://localhost:3001/trabajos/${id}`);
+        setTrabajo(response.data);
+      } catch (error) {
+        console.error('Error al obtener detalles del trabajo', error);
+      }
+    };
 
-                    <p className="font-semibold text-2xl mt-4">Materiales:</p>
-                    <ul className="list-disc ml-8">
-                        <li className="text-xl">Llantas: $4800</li>
-                        <li className="text-xl">Aceite: $2000</li>
-                        {/* Agrega más materiales si es necesario */}
-                    </ul>
-                </div>
+    if (id) {
+      fetchTrabajoDetails();
+    }
+  }, [id]);
 
-                <div className="text-right">
-                    <p className="font-semibold text-2xl">Horas de trabajo: 7</p>
-                    <p className="font-semibold text-2xl mt-4">Total por horas de trabajo: $2000</p>
-                </div>
-            </div>
+  if (!trabajo) {
+    return <div>Cargando detalles del trabajo...</div>;
+  }
 
-            <div  className="absolute bottom-0 p-10 left-[80%]">
-                <p className="text-4xl font-bold">TOTAL: $500</p>
-            </div>
-
-            <div className="absolute bottom-0 p-10 right-[85%]">
-                <Link to="/Secciones">
-                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-300 text-white ">Ver Secciones</button>
-                </Link>
-            </div>
-        </div>
-    </>
-    );
-}
+  return (
+    <div>
+      <h2>Detalles del Trabajo</h2>
+      <p>ID: {trabajo.id_trabajo}</p>
+      <p>Tipo de Trabajo: {trabajo.tipo_trabajo}</p>
+      <p>Descripción: {trabajo.descripcion}</p>
+      {/* Agrega más detalles según sea necesario */}
+    </div>
+  );
+};
 
 export default Detalles;

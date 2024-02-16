@@ -18,4 +18,3 @@ router.get('/:usuario_id', cronometroRouter.mostrarTiempoTrabajo)
 
 
 module.exports = router;
-

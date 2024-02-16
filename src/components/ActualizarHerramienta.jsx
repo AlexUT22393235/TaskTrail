@@ -1,65 +1,81 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Swal from 'sweetalert2';
+import ModalForm from '../components/ModalForm';
+import { IoArrowBack } from "react-icons/io5";
+import Header from '../components/Header';
 
-const ActualizarHerramienta = ({ isOpen2, onClose, children }) => {
+const ListaMaterial = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [materialList, setMaterialList] = useState([]);
 
-    
+    useEffect(() => {
+        // Obtener datos del localStorage al cargar la página
+        const savedMaterials = localStorage.getItem('materialList');
+        if (savedMaterials) {
+            setMaterialList(JSON.parse(savedMaterials));
+        }
+    }, []);
 
-    const mostrarAlerta=()=>{
-        Swal.fire({
-            icon: 'info',
-            title: 'Alerta',
-            html: '<p>Seguro que quieres continuar?</p>'
-        }).then((result) => {
-            // Si el usuario hace clic en "Confirmar" en la alerta, cierra el modal
-            if (result.isConfirmed) {
-                onClose();
-            }
+    const handleAddMaterial = (material) => {
+        // Agregar nuevo material a la lista
+        setMaterialList([...materialList, material]);
+        // Guardar lista actualizada en localStorage
+        localStorage.setItem('materialList', JSON.stringify([...materialList, material]));
+    };
+
+    const handleFinishRegistration = () => {
+        // Construir un array con los datos a enviar
+        const dataToSend = materialList.map(material => ({
+            nombre_material: material.nombre,
+            cantidad: material.cantidad,
+            precio_material: material.precio
+        }));
+
+        // Enviar cada material a la base de datos individualmente
+        dataToSend.forEach(material => {
+            axios.post('http://localhost:3001/materiales', material)
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro completado',
+                        text: 'Todos los materiales se han enviado correctamente a la base de datos',
+                    }).then(() => {
+                        // Limpiar localStorage y estado local después de enviar todos los datos a la BD
+                        localStorage.removeItem('materialList');
+                        setMaterialList([]);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al enviar material:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al enviar',
+                        text: 'No se pudieron enviar todos los materiales a la base de datos',
+                    });
+                });
         });
-    }
+    };
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     return (
         <>
-            {isOpen2 && (
-                <div className="fixed z-10 inset-0 overflow-y-auto">
-                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        <div
-                            className="fixed inset-0 transition-opacity"
-                            aria-hidden="true"
-                        >
-                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div>
-
-                        <span
-                            className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                            aria-hidden="true"
-                        >
-                            &#8203;
-                        </span>
-
-                        <div
-                            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-                            role="dialog"
-                            aria-modal="true"
-                            aria-labelledby="modal-headline"
-                        >
-                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                {children}
-                            </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex items-center justify-center">
-                                <button
-                                    onClick={mostrarAlerta} 
-                                    type="button"
-                                    className="bg-blue-950 p-3 rounded-lg text-white flex justify-center items-center"
-                                >
-                                    Confirmar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <Header />
+            <h2 className="text-4xl font-bold text-center">Materiales</h2>
+            <div className="flex justify-between items-center mb-4 p-5">
+                <button className="p-2 bg-blue-500 text-white rounded w-[5%] hover:bg-blue-400" onClick={openModal}>Nuevo</button>
+                <button className="p-2 bg-blue-500 text-white rounded" onClick={handleFinishRegistration}>Terminar registro</button>
+            </div>
+            {/* Contenido restante del componente */}
+            <ModalForm
+                isOpen={isModalOpen}
+                closeModal={closeModal}
+                handleAddMaterial={handleAddMaterial}
+            />
         </>
     );
 };
 
-export default ActualizarHerramienta;
+export default ListaMaterial;
