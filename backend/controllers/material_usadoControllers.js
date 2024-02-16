@@ -32,12 +32,10 @@ const obtenerMaterialUsadoPorId = (req, res) => {
 const crearMaterialUsado = (req, res) => {
     const { nombre_material, cantidad, precio_material } = req.body;
 
-    // Verificar que se proporcionen todos los datos necesarios
     if (!nombre_material || cantidad == null || precio_material == null) {
         return res.status(400).json({ error: 'Falta información del material usado' });
     }
 
-    // Almacenar el nuevo material usado en la base de datos
     connection.query(
         'INSERT INTO material_usado (nombre_material, cantidad, precio_material) VALUES (?, ?, ?)',
         [nombre_material, cantidad, precio_material],
@@ -47,10 +45,12 @@ const crearMaterialUsado = (req, res) => {
                 return res.status(500).json({ error: 'Error al agregar el material usado' });
             }
 
-            res.json({ message: 'Material usado agregado correctamente' });
+            // Devolver el ID del material usado recién creado
+            res.json({ id: results.insertId, message: 'Material usado agregado correctamente' });
         }
     );
 };
+
 
 // Actualizar un material usado por ID
 const actualizarMaterialUsadoPorId = (req, res) => {
@@ -82,10 +82,31 @@ const eliminarMaterialUsadoPorId = (req, res) => {
     });
 };
 
+const obtenerIDsMaterialesUsados = (req, res) => {
+    const rangoContador = req.params.rangoContador;
+  
+    connection.query(
+        "SELECT id_material_usado FROM material_usado ORDER BY id_material_usado DESC LIMIT ?",
+        [rangoContador],
+        (error, results) => {
+          if (error) {
+            console.error("Error al obtener IDs de materiales usados", error);
+            res.status(500).json({
+              error: "Error al obtener IDs de materiales usados",
+            });
+          } else {
+            const idsMaterialesUsados = results.map(result => result.id_material_usado);
+            res.json({ idsMaterialesUsados });
+          }
+        }
+      );
+  };
+
 module.exports = {
     obtenerMaterialesUsados,
     obtenerMaterialUsadoPorId,
     crearMaterialUsado,
     actualizarMaterialUsadoPorId,
     eliminarMaterialUsadoPorId,
+    obtenerIDsMaterialesUsados
 };

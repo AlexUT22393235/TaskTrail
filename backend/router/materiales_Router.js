@@ -22,4 +22,9 @@ router.put("/:id_material_usado", materialesUsadosControllers.actualizarMaterial
 // Eliminar un material usado por ID
 router.delete("/:id_material_usado", materialesUsadosControllers.eliminarMaterialUsadoPorId);
 
+//Limitar id por rango
+
+router.get('/obtenerIDs/:rangoContador', materialesUsadosControllers.obtenerIDsMaterialesUsados);
+
+
 module.exports = router;
